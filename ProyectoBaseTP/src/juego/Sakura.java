@@ -29,6 +29,18 @@ public class Sakura {
     public int getAlto(){
         return alto;
     }
+    public void moverIzquierda(){
+        this.x = this.x-5;
+    }
+    public void moverDerecha(){
+        this.x = this.x+5;
+    }
+    public void moverArriba(){
+        this.x = this.y+5;
+    }
+    public void moverAbajo(){
+        this.x = this.y-5;
+    }
 
     public void dibujarse(Entorno entorno){
         entorno.dibujarImagen(Herramientas.cargarImagen("images/sakura.png"), this.x, this.y, 0,0.2);
