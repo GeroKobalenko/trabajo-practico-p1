@@ -36,10 +36,10 @@ public class Sakura {
         this.x = this.x+5;
     }
     public void moverArriba(){
-        this.x = this.y+5;
+        this.y = this.y-5;
     }
     public void moverAbajo(){
-        this.x = this.y-5;
+        this.y = this.y+5;
     }
 
     public void dibujarse(Entorno entorno){

@@ -45,10 +45,12 @@ public class Juego extends InterfaceJuego
 		// Procesamiento de un instante de tiempo
 		// ...
 		Sakura.dibujarse(entorno);
-		if(this.entorno.estaPresionada(this.entorno.TECLA_ARRIBA)){
+		if(this.entorno.estaPresionada(this.entorno.TECLA_ARRIBA)
+				&& this.Sakura.getY()>40){
 			Sakura.moverArriba();
 		}
-		if(this.entorno.estaPresionada(this.entorno.TECLA_ABAJO)){
+		if(this.entorno.estaPresionada(this.entorno.TECLA_ABAJO)
+				&& this.Sakura.getY()<this.entorno.getHeight()-80){
 			Sakura.moverAbajo();
 		}
 		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)
