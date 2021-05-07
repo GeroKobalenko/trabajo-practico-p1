@@ -2,6 +2,7 @@ package juego;
 
 
 import entorno.Entorno;
+import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego
@@ -23,6 +24,7 @@ public class Juego extends InterfaceJuego
 
 		// Inicia el juego!
 		this.entorno.iniciar();
+		
 	}
 
 	/**
