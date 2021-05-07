@@ -9,6 +9,7 @@ public class Juego extends InterfaceJuego
 {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
+	private Sakura Sakura;
 	
 	// Variables y métodos propios de cada grupo
 	// ...
@@ -21,7 +22,7 @@ public class Juego extends InterfaceJuego
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
-
+		this.Sakura = new Sakura(300, 300, 10, 5);
 		// Inicia el juego!
 		this.entorno.iniciar();
 		
@@ -37,7 +38,7 @@ public class Juego extends InterfaceJuego
 	{
 		// Procesamiento de un instante de tiempo
 		// ...
-		
+		Sakura.dibujarse(entorno);
 
 	}
 	
