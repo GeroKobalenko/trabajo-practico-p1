@@ -10,6 +10,7 @@ public class Juego extends InterfaceJuego
 {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
+	private Fondo fondo;
 	private Sakura Sakura;
 	private Ninjas Ninjas;
 	
@@ -28,6 +29,7 @@ public class Juego extends InterfaceJuego
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
+		fondo.dibujar(entorno);
 		this.Sakura = new Sakura(300, 300, 10, 5);
 		this.Ninjas = new Ninjas(200, 100, 100, 5, 10);
 		// Inicia el juego!
@@ -45,6 +47,7 @@ public class Juego extends InterfaceJuego
 	{
 		// Procesamiento de un instante de tiempo
 		// ...
+		fondo.dibujar(entorno);
 		Sakura.dibujarse(entorno);
 		if(this.entorno.estaPresionada(this.entorno.TECLA_ARRIBA)
 				&& this.Sakura.getY()>40){
