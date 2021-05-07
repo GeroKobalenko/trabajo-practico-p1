@@ -31,7 +31,7 @@ public class Sakura {
     }
 
     public void dibujarse(Entorno entorno){
-        entorno.dibujarImagen(Herramientas.cargarImagen("sakura.png"), this.x, this.y, 90, 1);
+        entorno.dibujarImagen(Herramientas.cargarImagen("images/sakura.png"), this.x, this.y, 0,0.2);
     }
 
 }
