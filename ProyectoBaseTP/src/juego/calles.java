@@ -1,12 +1,12 @@
 package juego;
 
-public class calles {
+public class Calles {
     private int x;
     private int y;
     private int ancho;
     private int alto;
 
-    public calles(int x,int y, int alto, int ancho){
+    public Calles(int x,int y, int alto, int ancho){
         this.x = x;
         this.y = y;
         this.ancho = ancho;

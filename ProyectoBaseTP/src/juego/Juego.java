@@ -2,7 +2,6 @@ package juego;
 
 
 import java.awt.Image;
-
 import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
@@ -12,6 +11,7 @@ public class Juego extends InterfaceJuego
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Sakura Sakura;
+	private Ninjas Ninjas;
 	
 	// Variables y métodos propios de cada grupo
 	// ...
@@ -24,11 +24,12 @@ public class Juego extends InterfaceJuego
 	Juego()
 	{
 		// Inicializa el objeto entorno
-		this.entorno = new Entorno(this, "Boss Rabbit Rabber - Grupo ... - v1", 800, 600);
+		this.entorno = new Entorno(this, "Gero, Martin Y Matias", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
 		this.Sakura = new Sakura(300, 300, 10, 5);
+		this.Ninjas = new Ninjas(200, 100, 100, 5, 10);
 		// Inicia el juego!
 		this.entorno.iniciar();
 		
@@ -61,6 +62,7 @@ public class Juego extends InterfaceJuego
 				&& this.Sakura.getX()>30){
 			Sakura.moverIzquierda();
 		}
+		Ninjas.dibujar(entorno);
 
 	}
 	

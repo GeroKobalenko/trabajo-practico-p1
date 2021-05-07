@@ -1,12 +1,12 @@
 package juego;
 
-public class rasengan {
+public class Rasengan {
     private int x;
     private int y;
     private int ancho;
     private int alto;
 
-    public rasengan(int x,int y, int alto, int ancho){
+    public Rasengan(int x,int y, int alto, int ancho){
         this.x = x;
         this.y = y;
         this.ancho = ancho;
