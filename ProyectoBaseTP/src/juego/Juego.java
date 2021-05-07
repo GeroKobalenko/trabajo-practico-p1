@@ -1,6 +1,8 @@
 package juego;
 
 
+import java.awt.Image;
+
 import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
@@ -14,6 +16,10 @@ public class Juego extends InterfaceJuego
 	// Variables y métodos propios de cada grupo
 	// ...
 	// ACA HICE UN COMENTARIO DE asfasg
+	
+	
+	// Instancio un objeto tipo imagen y con el metodo cargarImagen de la class herramientas lo cargo/asigno.
+	Image imagen = this.herramientas.cargarImagen("images/sakura.png");
 	
 	Juego()
 	{
