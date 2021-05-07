@@ -19,7 +19,7 @@ public class Juego extends InterfaceJuego
 	
 	
 	// Instancio un objeto tipo imagen y con el metodo cargarImagen de la class herramientas lo cargo/asigno.
-	Image imagen = this.herramientas.cargarImagen("images/sakura.png");
+	//Image imagen = this.herramientas.cargarImagen("images/sakura.png");
 	
 	Juego()
 	{
