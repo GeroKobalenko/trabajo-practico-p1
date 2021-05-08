@@ -29,9 +29,9 @@ public class Juego extends InterfaceJuego
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
-		entorno.setBackground(Color.WHITE);
 		this.Sakura = new Sakura(300, 300, 10, 5);
-		this.Ninjas = new Ninjas(200, 100, 100, 5, 10);
+		this.Ninjas = new Ninjas(200, 100, 100, 5, 5);
+		this.Ninjas = new Ninjas(100, 200, 50, 5, 5);
 		// Inicia el juego!
 		this.entorno.iniciar();
 		
@@ -47,7 +47,6 @@ public class Juego extends InterfaceJuego
 	{
 		// Procesamiento de un instante de tiempo
 		// ...
-		entorno.setBackground(Color.WHITE);
 		Sakura.dibujarse(entorno);
 		if(this.entorno.estaPresionada(this.entorno.TECLA_ARRIBA)
 				&& this.Sakura.getY()>40){
@@ -66,6 +65,7 @@ public class Juego extends InterfaceJuego
 			Sakura.moverIzquierda();
 		}
 		Ninjas.dibujar(entorno);
+		Ninjas.moverX();
 
 	}
 	
