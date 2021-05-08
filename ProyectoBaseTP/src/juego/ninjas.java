@@ -43,6 +43,6 @@ public class Ninjas {
     }
     
     public void dibujar(Entorno entorno){
-        entorno.dibujarImagen(Herramientas.cargarImagen("images/ninja.png"), this.x, this.y, 0, 0.1);
+        entorno.dibujarImagen(Herramientas.cargarImagen("images/ninja_amarillo.png"), this.x, this.y, 0, 0.1);
     }
 }
