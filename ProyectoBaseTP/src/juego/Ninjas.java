@@ -38,11 +38,11 @@ public class Ninjas {
     }
 
     public void moverY(){
-        this.y = this.y + this.velocidad;
+        //this.y = this.y + this.velocidad;
     }
 
     public void moverX(){
-        this.x = this.x + this.velocidad;
+       // this.x = this.x + this.velocidad;
     }
     
     public void dibujar(Entorno entorno){
@@ -61,6 +61,5 @@ public class Ninjas {
     			this.y = 0;
     		}
     	}
-    	
     }
 }

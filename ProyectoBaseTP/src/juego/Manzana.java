@@ -1,9 +1,9 @@
 package juego;
-
 import java.awt.Color;
+import java.util.Random;
 
 import entorno.Entorno;
-import entorno.Herramientas;
+//import entorno.Herramientas;
 
 public class Manzana {
 
@@ -21,7 +21,9 @@ public class Manzana {
 		this.casas = casas;
 	}
 	
+
 	public void dibujarManzana(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(69,176,0));
+		Random rant = new Random();
+		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(100,50,25));//(rant.nextInt(200),rant.nextInt(200),rant.nextInt(200)));
     }
 }
