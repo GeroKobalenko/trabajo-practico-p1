@@ -1,5 +1,7 @@
 package juego;
 
+import java.awt.Image;
+
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -9,12 +11,14 @@ public class Sakura {
     private int y;
     private int ancho;
     private int alto;
+    private Image imagen;
 
     public Sakura(int x,int y, int alto, int ancho){
         this.x = x;
         this.y = y;
         this.ancho = ancho;
         this.alto = alto;
+        this.imagen = Herramientas.cargarImagen("images/sakura.png");
     }
 
     public int getX(){
@@ -30,20 +34,70 @@ public class Sakura {
         return alto;
     }
     public void moverIzquierda(){
-        this.x = this.x-5;
+        this.x = this.x-3;
     }
     public void moverDerecha(){
-        this.x = this.x+5;
+        this.x = this.x+3;
     }
     public void moverArriba(){
-        this.y = this.y-5;
+        this.y = this.y-3;
     }
     public void moverAbajo(){
-        this.y = this.y+5;
+        this.y = this.y+3;
     }
 
     public void dibujarse(Entorno entorno){
-        entorno.dibujarImagen(Herramientas.cargarImagen("images/sakura.png"), this.x, this.y, 0,0.2);
+        entorno.dibujarImagen(imagen, this.x, this.y, 0,0.2);
+    }
+    
+    public boolean noEstaPresionando(Entorno entorno,char tecla) {
+    	if (entorno.estaPresionada(tecla)) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public void seMueve(Entorno entorno) {
+    	if(
+    			entorno.estaPresionada(entorno.TECLA_ARRIBA)
+				&& this.getY()>30
+				&& this.noEstaPresionando(entorno,entorno.TECLA_ABAJO)
+				&& this.noEstaPresionando(entorno,entorno.TECLA_DERECHA)
+				&& this.noEstaPresionando(entorno,entorno.TECLA_IZQUIERDA)
+				) 
+    	{
+			this.moverArriba();
+		}
+		if(
+				entorno.estaPresionada(entorno.TECLA_ABAJO)
+				&& this.getY()<entorno.getHeight()-70
+				&& this.noEstaPresionando(entorno,entorno.TECLA_ARRIBA)
+				&& this.noEstaPresionando(entorno,entorno.TECLA_DERECHA)
+				&& this.noEstaPresionando(entorno,entorno.TECLA_IZQUIERDA)
+				)
+		{
+			this.moverAbajo();
+		}
+		if(
+				entorno.estaPresionada(entorno.TECLA_DERECHA)
+				&& this.getX()<entorno.getWidth()-40
+				&& this.noEstaPresionando(entorno,entorno.TECLA_ABAJO)
+				&& this.noEstaPresionando(entorno,entorno.TECLA_ARRIBA)
+				&& this.noEstaPresionando(entorno,entorno.TECLA_IZQUIERDA)
+				)
+		{
+			this.moverDerecha();
+		}
+		if(
+				entorno.estaPresionada(entorno.TECLA_IZQUIERDA)
+				&& this.getX()>25
+				&& this.noEstaPresionando(entorno,entorno.TECLA_ABAJO)
+				&& this.noEstaPresionando(entorno,entorno.TECLA_DERECHA)
+				&& this.noEstaPresionando(entorno,entorno.TECLA_ARRIBA)
+				)
+		{
+			this.moverIzquierda();
+		}
     }
 
 }
