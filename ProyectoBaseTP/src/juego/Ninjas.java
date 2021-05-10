@@ -38,19 +38,18 @@ public class Ninjas {
     }
 
     public void moverY(){
-        //this.y = this.y + this.velocidad;
+        this.y = this.y + this.velocidad;
     }
 
     public void moverX(){
-       // this.x = this.x + this.velocidad;
+       this.x = this.x + this.velocidad;
     }
     
     public void dibujar(Entorno entorno){
-        entorno.dibujarImagen(Herramientas.cargarImagen("images/ninja_amarillo.png"), this.x, this.y, 0, 0.1);
+        entorno.dibujarImagen(Herramientas.cargarImagen("images/ninja_amarillo.png"), this.x, this.y, 0, 0.08);
     }
     
     public void tocaBorde(Entorno entorno) {
-    	
     	if (this.esHorizontal) {
     		if (this.getX()>entorno.getWidth()-40) {
         		this.x = 0;

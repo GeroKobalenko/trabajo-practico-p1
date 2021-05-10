@@ -18,7 +18,7 @@ public class Sakura {
         this.y = y;
         this.ancho = ancho;
         this.alto = alto;
-        this.imagen = Herramientas.cargarImagen("images/sakura.png");
+        this.imagen = Herramientas.cargarImagen("images/sakurav2.png");
     }
 
     public int getX(){
@@ -33,23 +33,23 @@ public class Sakura {
     public int getAlto(){
         return alto;
     }
-    public void moverIzquierda(){
+    private void moverIzquierda(){
         this.x = this.x-3;
     }
-    public void moverDerecha(){
+    private void moverDerecha(){
         this.x = this.x+3;
     }
-    public void moverArriba(){
+    private void moverArriba(){
         this.y = this.y-3;
     }
-    public void moverAbajo(){
+    private void moverAbajo(){
         this.y = this.y+3;
     }
 
     public void dibujarse(Entorno entorno){
-        entorno.dibujarImagen(imagen, this.x, this.y, 0,0.2);
+        entorno.dibujarImagen(imagen, this.x, this.y, 0,0.1);
     }
-    
+
     public boolean noEstaPresionando(Entorno entorno,char tecla) {
     	if (entorno.estaPresionada(tecla)) {
     		return false;
@@ -60,7 +60,7 @@ public class Sakura {
     public void seMueve(Entorno entorno) {
     	if(
     			entorno.estaPresionada(entorno.TECLA_ARRIBA)
-				&& this.getY()>30
+				&& this.getY()>40
 				&& this.noEstaPresionando(entorno,entorno.TECLA_ABAJO)
 				&& this.noEstaPresionando(entorno,entorno.TECLA_DERECHA)
 				&& this.noEstaPresionando(entorno,entorno.TECLA_IZQUIERDA)
@@ -70,7 +70,7 @@ public class Sakura {
 		}
 		if(
 				entorno.estaPresionada(entorno.TECLA_ABAJO)
-				&& this.getY()<entorno.getHeight()-70
+				&& this.getY()<entorno.getHeight()-80
 				&& this.noEstaPresionando(entorno,entorno.TECLA_ARRIBA)
 				&& this.noEstaPresionando(entorno,entorno.TECLA_DERECHA)
 				&& this.noEstaPresionando(entorno,entorno.TECLA_IZQUIERDA)
@@ -99,5 +99,4 @@ public class Sakura {
 			this.moverIzquierda();
 		}
     }
-
 }

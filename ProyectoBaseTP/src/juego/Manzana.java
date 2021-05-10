@@ -20,10 +20,22 @@ public class Manzana {
 		this.alto = alto;
 		this.casas = casas;
 	}
-	
+	public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
 
+	public int getAncho(){
+        return ancho;
+    }
+    public int getAlto(){
+        return alto;
+    }
+	
 	public void dibujarManzana(Entorno entorno) {
 		Random rant = new Random();
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(100,50,25));//(rant.nextInt(200),rant.nextInt(200),rant.nextInt(200)));
+		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(50,50,25));//(rant.nextInt(200),rant.nextInt(200),rant.nextInt(200)));
     }
 }

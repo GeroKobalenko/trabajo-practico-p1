@@ -1,4 +1,6 @@
 package juego;
+import java.awt.Color;
+import entorno.Entorno;
 
 public class Calles {
     private int x;
@@ -29,4 +31,7 @@ public class Calles {
     /*public void dibujarse(Entorno entorno){
         entorno.dibujarImagen(imagen, this.x, this.y, angulo, escala);
     }*/
+    public void dibujarCalles(Entorno entorno) {
+		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.BLUE);//(rant.nextInt(200),rant.nextInt(200),rant.nextInt(200)));
+    }
 }
