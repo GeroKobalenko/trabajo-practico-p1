@@ -8,7 +8,7 @@ import entorno.Entorno;
 import entorno.InterfaceJuego;
 import java.util.Random;
 
-import javax.naming.ldap.ManageReferralControl;
+//import javax.naming.ldap.ManageReferralControl;
 
 public class Juego extends InterfaceJuego
 {
@@ -29,7 +29,7 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Gero, Martin Y Matias", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
-		this.sakura = new Sakura(400, 75,40,30);
+		this.sakura = new Sakura(160, 300,40,30); //Le resto 25 para las calles horizontales
 		//Instancio las manzanas
 		int anchoManzana = this.entorno.ancho()/4;
 		int altoManzana = this.entorno.alto()/5;
@@ -44,11 +44,14 @@ public class Juego extends InterfaceJuego
 			this.manzana[i] = new Manzana(posx,posy,anchoManzana,altoManzana,null);
 			posx = posx + anchoManzana + 40;
 		}
-		/*Instancio las calles
-		this.callesHori[0] = new Calles(0, 75, 30, 1600);
-		this.callesHori[1] = new Calles(0, 225, 30, 1600);
-		this.callesHori[2] = new Calles(0, 375, 30, 1600);
-		this.callesHori[3] = new Calles(0, 525, 30, 1600);*/
+		//Instancio las calles
+		this.callesHori[0] = new Calles(400, 75, 30, 800);
+		this.callesHori[1] = new Calles(400, 225, 30, 800);
+		this.callesHori[2] = new Calles(400, 375, 30, 800);
+		this.callesHori[3] = new Calles(400, 525, 30, 800);
+		this.callesVerti[0] = new Calles(160, 300, 600, 40);
+		this.callesVerti[1] = new Calles(400, 300, 600, 40);
+		this.callesVerti[2] = new Calles(640, 300, 600, 40);
 
 		//Instancio los ninjas
 		int ninjasLenght = this.ninjas.length;
@@ -90,14 +93,18 @@ public class Juego extends InterfaceJuego
 		for (int i = 0; i < this.manzana.length; i++) {
 			this.manzana[i].dibujarManzana(entorno);
 		}
-		/*calles
+		//calles
 		this.callesHori[0].dibujarCalles(entorno);
 		this.callesHori[1].dibujarCalles(entorno);
 		this.callesHori[2].dibujarCalles(entorno);
-		this.callesHori[3].dibujarCalles(entorno);*/
+		this.callesHori[3].dibujarCalles(entorno);
+		this.callesVerti[0].dibujarCalles(entorno);
+		this.callesVerti[1].dibujarCalles(entorno);
+		this.callesVerti[2].dibujarCalles(entorno);
+		
 
 		sakura.dibujarse(entorno);
-		//sakura.seMueve(entorno);
+		
 
 		//Ninjas
 		ninjas[0].dibujar(entorno);
@@ -114,19 +121,20 @@ public class Juego extends InterfaceJuego
 		ninjas[3].tocaBorde(entorno);
 		
 		//PRUEBA
-		for (int i = 0; i < manzana.length; i++) {
-			if (sakura.getX()<manzana[i].getX()+(manzana[i].getAncho()/2) 
-   			&& sakura.getX()>manzana[i].getX()-(manzana[i].getAncho()/2))
-			   sakura.seMueve(entorno);
-			else if(sakura.getY()<manzana[i].getY()+(manzana[i].getAlto()/2)
-			&& sakura.getY()>manzana[i].getY()-(manzana[i].getAncho()/2)){
-				sakura.seMueve(entorno);
-			   }
+		for (int i = 0; i < callesHori.length; i++) {
+			if(sakura.getY()+40<=callesHori[i].getY()+(callesHori[i].getAlto()/2) &&
+			 sakura.getY()+40>=callesHori[i].getY()-(callesHori[i].getAlto()/2)){
+				sakura.seMueveHori(entorno);
+			}
 		}
-		
-
-			
-	}
+		for (int i = 0; i < callesVerti.length; i++) {
+			if(sakura.getX()<=callesVerti[i].getX()+(callesVerti[i].getAncho()/3) &&
+			 sakura.getX()>=callesVerti[i].getX()-(callesVerti[i].getAncho()/3)){
+				sakura.seMueveVerti(entorno);
+			}
+		}
+				
+	}	
 	
 
 	@SuppressWarnings("unused")
