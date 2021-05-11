@@ -123,6 +123,10 @@ public class Juego extends InterfaceJuego
 			else {
 				ninjas[i].moverY();
 			}
+			//Falta mejorar
+			if (ninjas[i].tocaSakura(sakura)) {
+				System.out.print("D:");;
+			}
 		}
 		sakura.seMueveHori(entorno, this.calles);
 		sakura.seMueveVerti(entorno, this.calles);	
