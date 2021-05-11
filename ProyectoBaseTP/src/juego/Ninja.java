@@ -65,6 +65,14 @@ public class Ninja {
         entorno.dibujarImagen(Herramientas.cargarImagen("images/ninja.png"), this.x, this.y, 0, 0.08);
     }
     
+    public boolean tocaSakura(Sakura sakura) {
+    	//GAME OVER
+    	if (this.y == sakura.getY() || this.x == sakura.getX()) {
+    		return true;
+    	}
+    	return false;
+    }
+    
     public void tocaBorde(Entorno entorno) {
     	if (this.esHorizontal) {
     		if (this.tipoMovimiento) {

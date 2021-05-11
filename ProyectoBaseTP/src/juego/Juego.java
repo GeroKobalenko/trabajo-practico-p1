@@ -37,7 +37,6 @@ public class Juego extends InterfaceJuego
 		this.sakura = new Sakura(this.entorno.ancho()/2, this.entorno.alto()/3, 40, 30);
 		
 		//Instancio las manzanas
-		
 		//Variables auxiliares.
 		int anchoManzana = this.entorno.ancho()/4;
 		int altoManzana = this.entorno.alto()/5;

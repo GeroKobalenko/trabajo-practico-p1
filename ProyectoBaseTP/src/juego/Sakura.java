@@ -65,10 +65,6 @@ public class Sakura {
 	}
 
 	public void seMueveVerti(Entorno entorno, Calle[] calles) {
-//		if(sakura.getX()<=callesVerti[i].getX()+(callesVerti[i].getAncho()/3) &&
-//		 sakura.getX()>=callesVerti[i].getX()-(callesVerti[i].getAncho()/3)){
-//			sakura.seMueveVerti(entorno);
-//		}
 		for (int i = 0; i < calles.length; i++) {
 			if (!calles[i].esHorizontal()) {
 				if (
