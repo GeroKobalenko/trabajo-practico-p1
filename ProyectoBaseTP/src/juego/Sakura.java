@@ -71,10 +71,12 @@ public class Sakura {
 						this.x <= calles[i].getX()+(calles[i].getAncho()/3) &&
 						this.x>=calles[i].getX()-(calles[i].getAncho()/3)
 					) {
-					if (entorno.estaPresionada(entorno.TECLA_ARRIBA) && this.getY() > 20) {
+					if ((entorno.estaPresionada('w') ||entorno.estaPresionada(entorno.TECLA_ARRIBA)) 
+							&& this.getY() > 20) {
 						this.moverArriba();
 					}
-					if (entorno.estaPresionada(entorno.TECLA_ABAJO) && this.getY() < entorno.getHeight() - 80) {
+					if ((entorno.estaPresionada('s') || entorno.estaPresionada(entorno.TECLA_ABAJO)) 
+							&& this.getY() < entorno.getHeight() - 80) {
 						this.moverAbajo();
 					}
 				}
@@ -89,10 +91,12 @@ public class Sakura {
 					this.y+40<=calles[i].getY()+(calles[i].getAlto()/2) &&
 					this.y+40>=calles[i].getY()-(calles[i].getAlto()/2)){
 					
-					if (entorno.estaPresionada(entorno.TECLA_DERECHA) && this.getX() < entorno.getWidth() - 40) {
+					if ((entorno.estaPresionada('d') ||entorno.estaPresionada(entorno.TECLA_DERECHA))
+							&& this.getX() < entorno.getWidth() - 40) {
 						this.moverDerecha();
 					}
-					if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && this.getX() > 25) {
+					if ((entorno.estaPresionada('a') ||entorno.estaPresionada(entorno.TECLA_IZQUIERDA))
+							&& this.getX() > 25) {
 						this.moverIzquierda();
 					}
 				}

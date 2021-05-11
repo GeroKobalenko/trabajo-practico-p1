@@ -34,7 +34,7 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Gero, Martin Y Matias", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
-		this.sakura = new Sakura(this.entorno.ancho()/2, this.entorno.alto()/3, 40, 30);
+		this.sakura = new Sakura(this.entorno.ancho()/3, this.entorno.alto()/3, 40, 30);
 		
 		//Instancio las manzanas
 		//Variables auxiliares.
@@ -123,9 +123,10 @@ public class Juego extends InterfaceJuego
 			else {
 				ninjas[i].moverY();
 			}
-			//Falta mejorar
+			
+			// Para implementar cuando el ninja toca al pj
 			if (ninjas[i].tocaSakura(sakura)) {
-				System.out.print("D:");;
+				this.entorno.escribirTexto("PERDISTE PA", 400, 300);
 			}
 		}
 		sakura.seMueveHori(entorno, this.calles);
