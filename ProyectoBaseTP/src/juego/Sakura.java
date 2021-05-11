@@ -64,33 +64,43 @@ public class Sakura {
 		return true;
 	}
 
-	public void seMueveVerti(Entorno entorno) {
-		if (entorno.estaPresionada(entorno.TECLA_ARRIBA) && this.getY() > 20
-				&& this.noEstaPresionando(entorno, entorno.TECLA_ABAJO)
-				&& this.noEstaPresionando(entorno, entorno.TECLA_DERECHA)
-				&& this.noEstaPresionando(entorno, entorno.TECLA_IZQUIERDA)) {
-			this.moverArriba();
-		}
-		if (entorno.estaPresionada(entorno.TECLA_ABAJO) && this.getY() < entorno.getHeight() - 80
-				&& this.noEstaPresionando(entorno, entorno.TECLA_ARRIBA)
-				&& this.noEstaPresionando(entorno, entorno.TECLA_DERECHA)
-				&& this.noEstaPresionando(entorno, entorno.TECLA_IZQUIERDA)) {
-			this.moverAbajo();
+	public void seMueveVerti(Entorno entorno, Calle[] calles) {
+//		if(sakura.getX()<=callesVerti[i].getX()+(callesVerti[i].getAncho()/3) &&
+//		 sakura.getX()>=callesVerti[i].getX()-(callesVerti[i].getAncho()/3)){
+//			sakura.seMueveVerti(entorno);
+//		}
+		for (int i = 0; i < calles.length; i++) {
+			if (!calles[i].esHorizontal()) {
+				if (
+						this.x <= calles[i].getX()+(calles[i].getAncho()/3) &&
+						this.x>=calles[i].getX()-(calles[i].getAncho()/3)
+					) {
+					if (entorno.estaPresionada(entorno.TECLA_ARRIBA) && this.getY() > 20) {
+						this.moverArriba();
+					}
+					if (entorno.estaPresionada(entorno.TECLA_ABAJO) && this.getY() < entorno.getHeight() - 80) {
+						this.moverAbajo();
+					}
+				}
+			}
 		}
 	}
 
-	public void seMueveHori(Entorno entorno) {
-		if (entorno.estaPresionada(entorno.TECLA_DERECHA) && this.getX() < entorno.getWidth() - 40
-				&& this.noEstaPresionando(entorno, entorno.TECLA_ABAJO)
-				&& this.noEstaPresionando(entorno, entorno.TECLA_ARRIBA)
-				&& this.noEstaPresionando(entorno, entorno.TECLA_IZQUIERDA)) {
-			this.moverDerecha();
-		}
-		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && this.getX() > 25
-				&& this.noEstaPresionando(entorno, entorno.TECLA_ABAJO)
-				&& this.noEstaPresionando(entorno, entorno.TECLA_DERECHA)
-				&& this.noEstaPresionando(entorno, entorno.TECLA_ARRIBA)) {
-			this.moverIzquierda();
+	public void seMueveHori(Entorno entorno, Calle[] calles) {
+		for (int i = 0; i < calles.length; i++) {
+			if (calles[i].esHorizontal()) {
+				if(
+					this.y+40<=calles[i].getY()+(calles[i].getAlto()/2) &&
+					this.y+40>=calles[i].getY()-(calles[i].getAlto()/2)){
+					
+					if (entorno.estaPresionada(entorno.TECLA_DERECHA) && this.getX() < entorno.getWidth() - 40) {
+						this.moverDerecha();
+					}
+					if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && this.getX() > 25) {
+						this.moverIzquierda();
+					}
+				}
+			}
 		}
 	}
 }

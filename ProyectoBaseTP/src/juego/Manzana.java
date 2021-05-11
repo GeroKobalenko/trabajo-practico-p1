@@ -36,6 +36,6 @@ public class Manzana {
 	
 	public void dibujarManzana(Entorno entorno) {
 		//Random rant = new Random();
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(50,50,25));//(rant.nextInt(200),rant.nextInt(200),rant.nextInt(200)));
+		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(125,213,123));
     }
 }

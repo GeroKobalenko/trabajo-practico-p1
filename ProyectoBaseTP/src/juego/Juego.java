@@ -1,3 +1,9 @@
+/**
+ *
+ * @autores Gutierrez, Kobalenko, Ortigoza.
+ *
+ */
+
 package juego;
 
 
@@ -15,10 +21,9 @@ public class Juego extends InterfaceJuego
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Sakura sakura;
-	private Manzana[] manzana = new Manzana[20];
-	private Ninjas[] ninjas = new Ninjas[4];
-	private Calles[] callesHori = new Calles[4];
-	private Calles[] callesVerti = new Calles[3];
+	private Manzana[] manzanas = new Manzana[20];
+	private Ninja[] ninjas = new Ninja[4];
+	private Calle[] calles = new Calle[7];
 	
 	// Variables y métodos propios de cada grupo
 	
@@ -29,46 +34,55 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Gero, Martin Y Matias", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
-		this.sakura = new Sakura(160, 300,40,30); //Le resto 25 para las calles horizontales
+		this.sakura = new Sakura(this.entorno.ancho()/2, this.entorno.alto()/3, 40, 30);
+		
 		//Instancio las manzanas
+		
+		//Variables auxiliares.
 		int anchoManzana = this.entorno.ancho()/4;
 		int altoManzana = this.entorno.alto()/5;
-		int manzanaLength = this.manzana.length;
-		int posx = 40;
-		int posy = 0;
-		for (int i = 0; i < manzanaLength; i++) {
+		int xManzana = this.entorno.ancho()/20;
+		int yManzana = this.entorno.ancho()/30;
+		for (int i = 0; i < this.manzanas.length; i++) {
 			if (i == 4 || i == 8 || i == 12 || i == 16) {
-				posx = 40;
-				posy = posy + altoManzana + 30;
+				xManzana = this.entorno.ancho()/20;
+				yManzana = yManzana + altoManzana + this.entorno.ancho()/30;
 			}
-			this.manzana[i] = new Manzana(posx,posy,anchoManzana,altoManzana,null);
-			posx = posx + anchoManzana + 40;
+			this.manzanas[i] = new Manzana(xManzana,yManzana,anchoManzana,altoManzana,null);
+			xManzana = xManzana + anchoManzana + this.entorno.ancho()/20;
 		}
+		
 		//Instancio las calles
-		this.callesHori[0] = new Calles(400, 75, 30, 800);
-		this.callesHori[1] = new Calles(400, 225, 30, 800);
-		this.callesHori[2] = new Calles(400, 375, 30, 800);
-		this.callesHori[3] = new Calles(400, 525, 30, 800);
-		this.callesVerti[0] = new Calles(160, 300, 600, 40);
-		this.callesVerti[1] = new Calles(400, 300, 600, 40);
-		this.callesVerti[2] = new Calles(640, 300, 600, 40);
+		
+		//Variables auxiliares.
+		int calleX = this.entorno.ancho()/5;
+		int calleY = this.entorno.alto()/6;
+		
+		//Ciclo y añado un objeto Calle a cada elemento del array.
+		for (int i = 0; i < calles.length; i++) {
+			if (i < 4) {
+				this.calles[i] = new Calle(this.entorno.ancho()/2, calleY, 30, this.entorno.ancho(), true);
+				calleY = calleY + this.entorno.alto()/5 + this.entorno.alto()/24;
+			}
+			else {
+				this.calles[i] = new Calle(calleX, this.entorno.alto()/2, this.entorno.alto(), 40, false);
+				calleX = calleX + this.entorno.ancho()/4 + this.entorno.ancho()/20;
+			}
+		}
 
 		//Instancio los ninjas
-		int ninjasLenght = this.ninjas.length;
 		boolean esHorizontal=true;
+		boolean movimiento=false;
 		Random rant = new Random();
-		for (int i = 0; i < ninjasLenght; i++) {
-			if(i==0){
-				this.ninjas[i] = new Ninjas(rant.nextInt(800), 60, 10, 10, 3,esHorizontal);
+		int xNinja = this.entorno.ancho()/5;
+		for (int i = 0; i < this.ninjas.length; i++) {
+			if (esHorizontal) {
+				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY()-5, 10, 10, 3,esHorizontal,movimiento);
 			}
-			if(i==1){
-				this.ninjas[i] = new Ninjas(160, rant.nextInt(600), 10, 10, 3,esHorizontal);
-			}
-			if(i==2){
-				this.ninjas[i] = new Ninjas(rant.nextInt(800), 210, 10, 10, 3,esHorizontal);
-			}
-			if(i==3){
-				this.ninjas[i] = new Ninjas(640, rant.nextInt(600), 10, 10, 3,esHorizontal);
+			else {
+				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 10, 3,esHorizontal,movimiento);
+				movimiento = !movimiento;
+				xNinja = xNinja + this.entorno.ancho()/4 + this.entorno.ancho()/20;	
 			}
 			esHorizontal = !esHorizontal;
 		}
@@ -89,51 +103,30 @@ public class Juego extends InterfaceJuego
 		// Procesamiento de un instante de tiempo
 		// ...
 		
-        //manzana.dibujarManzana(entorno, 50, 0);
-		for (int i = 0; i < this.manzana.length; i++) {
-			this.manzana[i].dibujarManzana(entorno);
+		//Dibujo los diferentes objetos.
+		for (int i = 0; i < this.manzanas.length; i++) {
+			this.manzanas[i].dibujarManzana(entorno);
 		}
-		//calles
-		this.callesHori[0].dibujarCalles(entorno);
-		this.callesHori[1].dibujarCalles(entorno);
-		this.callesHori[2].dibujarCalles(entorno);
-		this.callesHori[3].dibujarCalles(entorno);
-		this.callesVerti[0].dibujarCalles(entorno);
-		this.callesVerti[1].dibujarCalles(entorno);
-		this.callesVerti[2].dibujarCalles(entorno);
 		
-
+		for (int i = 0; i < calles.length; i++) {
+			this.calles[i].dibujarCalles(entorno);
+		}
+		
 		sakura.dibujarse(entorno);
 		
-
 		//Ninjas
-		ninjas[0].dibujar(entorno);
-		ninjas[0].moverX();
-		ninjas[0].tocaBorde(entorno);
-		ninjas[1].dibujar(entorno);
-		ninjas[1].moverY();
-		ninjas[1].tocaBorde(entorno);
-		ninjas[2].dibujar(entorno);
-		ninjas[2].moverX();
-		ninjas[2].tocaBorde(entorno);
-		ninjas[3].dibujar(entorno);
-		ninjas[3].moverY();
-		ninjas[3].tocaBorde(entorno);
-		
-		//PRUEBA
-		for (int i = 0; i < callesHori.length; i++) {
-			if(sakura.getY()+40<=callesHori[i].getY()+(callesHori[i].getAlto()/2) &&
-			 sakura.getY()+40>=callesHori[i].getY()-(callesHori[i].getAlto()/2)){
-				sakura.seMueveHori(entorno);
+		for (int i = 0; i < ninjas.length; i++) {
+			ninjas[i].dibujar(entorno);
+			ninjas[i].tocaBorde(entorno);
+			if (ninjas[i].getEsHorizontal()) {
+				ninjas[i].moverX();
+			}
+			else {
+				ninjas[i].moverY();
 			}
 		}
-		for (int i = 0; i < callesVerti.length; i++) {
-			if(sakura.getX()<=callesVerti[i].getX()+(callesVerti[i].getAncho()/3) &&
-			 sakura.getX()>=callesVerti[i].getX()-(callesVerti[i].getAncho()/3)){
-				sakura.seMueveVerti(entorno);
-			}
-		}
-				
+		sakura.seMueveHori(entorno, this.calles);
+		sakura.seMueveVerti(entorno, this.calles);	
 	}	
 	
 
