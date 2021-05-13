@@ -67,15 +67,13 @@ public class Sakura {
 	public void seMueveVerti(Entorno entorno, Calle[] calles) {
 		for (int i = 0; i < calles.length; i++) {
 			if (!calles[i].esHorizontal()) {
-				if (
-						this.x <= calles[i].getX()+(calles[i].getAncho()/3) &&
-						this.x>=calles[i].getX()-(calles[i].getAncho()/3)
-					) {
-					if ((entorno.estaPresionada('w') ||entorno.estaPresionada(entorno.TECLA_ARRIBA)) 
+				if (this.x <= calles[i].getX() + (calles[i].getAncho() / 3)
+						&& this.x >= calles[i].getX() - (calles[i].getAncho() / 3)) {
+					if ((entorno.estaPresionada('w') || entorno.estaPresionada(entorno.TECLA_ARRIBA))
 							&& this.getY() > 20) {
 						this.moverArriba();
 					}
-					if ((entorno.estaPresionada('s') || entorno.estaPresionada(entorno.TECLA_ABAJO)) 
+					if ((entorno.estaPresionada('s') || entorno.estaPresionada(entorno.TECLA_ABAJO))
 							&& this.getY() < entorno.getHeight() - 80) {
 						this.moverAbajo();
 					}
@@ -87,15 +85,14 @@ public class Sakura {
 	public void seMueveHori(Entorno entorno, Calle[] calles) {
 		for (int i = 0; i < calles.length; i++) {
 			if (calles[i].esHorizontal()) {
-				if(
-					this.y+40<=calles[i].getY()+(calles[i].getAlto()/2) &&
-					this.y+40>=calles[i].getY()-(calles[i].getAlto()/2)){
-					
-					if ((entorno.estaPresionada('d') ||entorno.estaPresionada(entorno.TECLA_DERECHA))
+				if (this.y + 40 <= calles[i].getY() + (calles[i].getAlto() / 2)
+						&& this.y + 40 >= calles[i].getY() - (calles[i].getAlto() / 2)) {
+
+					if ((entorno.estaPresionada('d') || entorno.estaPresionada(entorno.TECLA_DERECHA))
 							&& this.getX() < entorno.getWidth() - 40) {
 						this.moverDerecha();
 					}
-					if ((entorno.estaPresionada('a') ||entorno.estaPresionada(entorno.TECLA_IZQUIERDA))
+					if ((entorno.estaPresionada('a') || entorno.estaPresionada(entorno.TECLA_IZQUIERDA))
 							&& this.getX() > 25) {
 						this.moverIzquierda();
 					}

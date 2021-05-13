@@ -1,12 +1,12 @@
 package juego;
 
-public class Flores {
+public class Ramo {
     private int x;
     private int y;
     private int ancho;
     private int alto;
 
-    public Flores(int x,int y, int alto, int ancho){
+    public Ramo(int x,int y, int alto, int ancho){
         this.x = x;
         this.y = y;
         this.ancho = ancho;
