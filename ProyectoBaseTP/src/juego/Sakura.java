@@ -12,6 +12,7 @@ public class Sakura {
 	private int ancho;
 	private int alto;
 	private Image imagen;
+	private Ninja ninjas;
 
 	public Sakura(int x, int y, int alto, int ancho) {
 		this.x = x;

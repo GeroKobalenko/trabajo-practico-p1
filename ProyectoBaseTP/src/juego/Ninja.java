@@ -2,7 +2,7 @@ package juego;
 
 import entorno.Entorno;
 import entorno.Herramientas;
-
+import java.lang.Math;
 
 public class Ninja {
     private int x;
@@ -71,16 +71,24 @@ public class Ninja {
         entorno.dibujarImagen(Herramientas.cargarImagen("images/ninja.png"), this.x, this.y, 0, 0.08);
     }
 
-    public boolean tocaSakura(Sakura sakura) {
-        // GAME OVER
-        this.distanciaX= sakura.getX();
-        this.distanciaY= sakura.getY();
-        if (sakura.getY() + (sakura.getAlto()/2) == (this.y + (this.alto / 2)) /*< distancia*/ && 
-            sakura.getX() + (sakura.getAncho()/2) == (this.x + (this.ancho/2)) /*< distancia*/ ) {
-            return true;
+        public boolean tocaSakura(Sakura sakura) {
+            // GAME OVER
+            /*this.distanciaX = sakura.getX();
+            this.distanciaY = sakura.getY();
+                if (sakura.getY() /*+ (sakura.getAlto() / 2)*/ /*- (this.y /*+ (this.alto / 2)*//*) < 5
+                    /*&& sakura.getX() /*+ (sakura.getAncho() / 2)*//*- (this.x/* + (this.ancho / 2)*//*) < 5) { 
+                        /*if((sakura.getAncho() + sakura.getX()) - (this.ancho + this.x) <= 10 && (sakura.getAncho() + sakura.getX() - (this.ancho + this.x) >= 10 
+                            && (sakura.getAlto() + sakura.getY()) - (this.alto + this.y) <= 10 && (sakura.getAlto() + sakura.getY()) - (this.alto + this.y) >=10 )) { 
+                            return true;
+                        }
+                        
+                }
+            return false;*/
+                if(Math.abs(this.x-sakura.getX())<15 && Math.abs(this.y-sakura.getY())<10){
+                    return true;
+                }
+                return false;
         }
-        return false;
-    }
 
     public void tocaBorde(Entorno entorno) {
         if (this.esHorizontal) {

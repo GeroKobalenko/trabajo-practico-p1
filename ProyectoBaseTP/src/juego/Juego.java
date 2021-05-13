@@ -11,6 +11,8 @@ package juego;
 import entorno.Entorno;
 //import entorno.Herramientas;
 import entorno.InterfaceJuego;
+
+import java.awt.Color;
 import java.util.Random;
 
 //import javax.naming.ldap.ManageReferralControl;
@@ -69,10 +71,10 @@ public class Juego extends InterfaceJuego {
 		int xNinja = this.entorno.ancho() / 5;
 		for (int i = 0; i < this.ninjas.length; i++) {
 			if (esHorizontal) {
-				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 3, esHorizontal,
+				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() /*- 5*/, 10, 15, 1, esHorizontal,
 						movimiento); // null;
 			} else {
-				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 3, esHorizontal, movimiento);
+				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 1, esHorizontal, movimiento);
 				movimiento = !movimiento;
 				xNinja = xNinja + this.entorno.ancho() / 4 + this.entorno.ancho() / 20;
 			}
@@ -94,9 +96,10 @@ public class Juego extends InterfaceJuego {
 		// ...
 
 		// Dibujo los diferentes objetos.
-		for (int i = 0; i < this.manzanas.length; i++) {
+		/*for (int i = 0; i < this.manzanas.length; i++) {
 			this.manzanas[i].dibujarManzana(entorno);
-		}
+		}*/
+		this.entorno.dibujarRectangulo(400, 300, 800, 600, 0, new Color(125,213,123));
 
 		for (int i = 0; i < calles.length; i++) {
 			this.calles[i].dibujarCalles(entorno);
@@ -118,12 +121,18 @@ public class Juego extends InterfaceJuego {
 				// Para implementar cuando el ninja toca al pj
 				if (ninjas[i].tocaSakura(sakura)) {
 					this.entorno.escribirTexto("you lose", 400, 300);
-					System.out.println("SE TOCAN WACHIN");
+					System.out.println("TOUCHING SAKURA");
+					this.entorno.removeAll();
 				}
 			}
 		}
 		sakura.seMueveHori(entorno, this.calles);
 		sakura.seMueveVerti(entorno, this.calles);
+		System.out.println("sakura X: "+sakura.getX() + " sakura Y: " + sakura.getY());
+		System.out.println("Ninja 0 X: " + ninjas[0].getX() + " Ninja 0 Y: " + ninjas[0].getY());
+		System.out.println("Ninja 1 X: " + ninjas[1].getX() + " Ninja 1 Y: " + ninjas[1].getY());
+		System.out.println("Ninja 2 X: " + ninjas[2].getX() + " Ninja 2 Y: " + ninjas[2].getY());
+		System.out.println("Ninja 3 X: " + ninjas[3].getX() + " Ninja 3 Y: " + ninjas[3].getY());
 	}
 
 	@SuppressWarnings("unused")
