@@ -21,7 +21,6 @@ public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Sakura sakura;
-	private Manzana[] manzanas = new Manzana[20];
 	private Ninja[] ninjas = new Ninja[4];
 	private Calle[] calles = new Calle[7];
 
@@ -33,21 +32,6 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
-
-		// Instancio las manzanas
-		// Variables auxiliares.
-		int anchoManzana = this.entorno.ancho() / 4;
-		int altoManzana = this.entorno.alto() / 5;
-		int xManzana = this.entorno.ancho() / 20;
-		int yManzana = this.entorno.ancho() / 30;
-		for (int i = 0; i < this.manzanas.length; i++) {
-			if (i == 4 || i == 8 || i == 12 || i == 16) {
-				xManzana = this.entorno.ancho() / 20;
-				yManzana = yManzana + altoManzana + this.entorno.ancho() / 30;
-			}
-			this.manzanas[i] = new Manzana(xManzana, yManzana, anchoManzana, altoManzana, null);
-			xManzana = xManzana + anchoManzana + this.entorno.ancho() / 20;
-		}
 
 		// Variables auxiliares.
 		int calleX = this.entorno.ancho() / 5;
