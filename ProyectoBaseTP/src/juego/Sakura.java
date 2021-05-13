@@ -86,7 +86,7 @@ public class Sakura {
 	public void seMueveHori(Entorno entorno, Calle[] calles) {
 		for (int i = 0; i < calles.length; i++) {
 			if (calles[i].esHorizontal()) {
-				if (this.y + 40 <= calles[i].getY() + (calles[i].getAlto() / 2)
+				if (this.y /*+ 40*/ <= calles[i].getY() + (calles[i].getAlto() / 2)
 						&& this.y + 40 >= calles[i].getY() - (calles[i].getAlto() / 2)) {
 
 					if ((entorno.estaPresionada('d') || entorno.estaPresionada(entorno.TECLA_DERECHA))

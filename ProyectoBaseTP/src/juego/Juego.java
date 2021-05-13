@@ -55,7 +55,7 @@ public class Juego extends InterfaceJuego {
 		int xNinja = this.entorno.ancho() / 5;
 		for (int i = 0; i < this.ninjas.length; i++) {
 			if (esHorizontal) {
-				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() /*- 5*/, 10, 15, 1, esHorizontal,
+				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 1, esHorizontal,
 						movimiento); // null;
 			} else {
 				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 1, esHorizontal, movimiento);
@@ -101,7 +101,6 @@ public class Juego extends InterfaceJuego {
 				} else {
 					ninjas[i].moverY();
 				}
-
 				// Para implementar cuando el ninja toca al pj
 				if (ninjas[i].tocaSakura(sakura)) {
 					this.entorno.escribirTexto("you lose", 400, 300);
