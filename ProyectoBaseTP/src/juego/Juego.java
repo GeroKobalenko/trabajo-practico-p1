@@ -117,7 +117,8 @@ public class Juego extends InterfaceJuego {
 
 				// Para implementar cuando el ninja toca al pj
 				if (ninjas[i].tocaSakura(sakura)) {
-					this.entorno.escribirTexto("PERDISTE PA", 400, 300);
+					this.entorno.escribirTexto("you lose", 400, 300);
+					System.out.println("SE TOCAN WACHIN");
 				}
 			}
 		}
