@@ -12,10 +12,10 @@ public class Ninja {
     private int velocidad;
     private boolean esHorizontal;
     private boolean tipoMovimiento;
-    private int distanciaX;
+    /*private int distanciaX;
     private int distanciaY;
     private Sakura sakura;
-    private Calle calle;
+    private Calle calle;*/
 
     public Ninja(int x, int y, int alto, int ancho, int velocidad, boolean esHorizontal, boolean tipoMovimiento) {
         this.x = x;
@@ -73,17 +73,6 @@ public class Ninja {
 
         public boolean tocaSakura(Sakura sakura) {
             // GAME OVER
-            /*this.distanciaX = sakura.getX();
-            this.distanciaY = sakura.getY();
-                if (sakura.getY() /*+ (sakura.getAlto() / 2)*/ /*- (this.y /*+ (this.alto / 2)*//*) < 5
-                    /*&& sakura.getX() /*+ (sakura.getAncho() / 2)*//*- (this.x/* + (this.ancho / 2)*//*) < 5) { 
-                        /*if((sakura.getAncho() + sakura.getX()) - (this.ancho + this.x) <= 10 && (sakura.getAncho() + sakura.getX() - (this.ancho + this.x) >= 10 
-                            && (sakura.getAlto() + sakura.getY()) - (this.alto + this.y) <= 10 && (sakura.getAlto() + sakura.getY()) - (this.alto + this.y) >=10 )) { 
-                            return true;
-                        }
-                        
-                }
-            return false;*/
                 if(Math.abs(this.x-sakura.getX())<=30 && Math.abs(this.y-sakura.getY())<=47){
                     return true;
                 }

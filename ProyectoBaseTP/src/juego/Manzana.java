@@ -12,14 +12,14 @@ public class Manzana {
 	private int y;
 	private int ancho;
 	private int alto;
-	private Casa[] casas;
+	//private Casa[] casas;
 
 	Manzana(int x, int y, int ancho, int alto, Casa[] casas) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
-		this.casas = casas;
+		//this.casas = casas;
 	}
 
 	public int getX() {

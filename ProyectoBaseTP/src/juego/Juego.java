@@ -22,7 +22,7 @@ public class Juego extends InterfaceJuego {
 	private Sakura sakura;
 	private Ninja[] ninjas = new Ninja[4];
 	private Calle[] calles = new Calle[7];
-	private Sakura ramo;
+	//private Sakura ramo;
 	private Rasengan rasengan;
 	int cont=0;
 
@@ -34,7 +34,7 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
-		this.rasengan = new Rasengan(sakura.getX(), sakura.getY(), 10, 15, 10);
+		this.rasengan = null;
 
 		// Variables auxiliares.
 		int calleX = this.entorno.ancho() / 5;
@@ -70,6 +70,11 @@ public class Juego extends InterfaceJuego {
 
 		// Inicia el juego!
 		this.entorno.iniciar();
+	}
+	public void crearRasegan(){
+		if(this.rasengan==null){
+			this.rasengan= new Rasengan(sakura.getX(), sakura.getY(), 10, 15, 10);
+		}	
 	}
 
 	/**
@@ -109,18 +114,16 @@ public class Juego extends InterfaceJuego {
 				if (ninjas[i].tocaSakura(sakura)) {
 					this.entorno.escribirTexto("you lose", 400, 300);
 					System.out.println("TOUCHING SAKURA");
-//					this.entorno.removeAll();
+					//this.entorno.removeAll();
 				}
 			}
 		}
 		sakura.seMueveHori(entorno, this.calles);
 		sakura.seMueveVerti(entorno, this.calles);
-		
-		if(entorno.estaPresionada(entorno.TECLA_ESPACIO)){
-				rasengan.seDispara(entorno,sakura.getX(),sakura.getY());
 
+		if(this.entorno.estaPresionada(entorno.TECLA_ESPACIO)){
+			rasengan.movRasengan(sakura, entorno);
 		}
-		
 	}
 
 	@SuppressWarnings("unused")

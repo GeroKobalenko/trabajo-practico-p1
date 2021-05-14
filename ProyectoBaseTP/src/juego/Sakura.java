@@ -11,7 +11,7 @@ public class Sakura {
 	private int ancho;
 	private int alto;
 	private Image imagen;
-	private Ninja ninjas;
+	//private Ninja ninjas;
 	private String direccion;
 
 	public Sakura(int x, int y, int alto, int ancho) {
@@ -21,10 +21,11 @@ public class Sakura {
 		this.alto = alto;
 		this.imagen = Herramientas.cargarImagen("images/sakurav2.png");
 	}
-
+	
 	public String direcc(){
 		return this.direccion;
 	}
+
 	public int getX() {
 		return x;
 	}
