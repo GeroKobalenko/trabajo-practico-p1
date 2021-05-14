@@ -115,6 +115,8 @@ public class Juego extends InterfaceJuego {
 		}
 		sakura.seMueveHori(entorno, this.calles);
 		sakura.seMueveVerti(entorno, this.calles);
+		rasengan.dibujarse(entorno);
+		rasengan.DisparaRasengan(entorno, rasengan);
 	}
 
 	@SuppressWarnings("unused")
