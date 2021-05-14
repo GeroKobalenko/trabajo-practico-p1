@@ -1,5 +1,4 @@
 package juego;
-
 import java.awt.Image;
 
 import entorno.Entorno;
@@ -71,7 +70,7 @@ public class Sakura {
 				if (this.x <= calles[i].getX() + (calles[i].getAncho() / 3)
 						&& this.x >= calles[i].getX() - (calles[i].getAncho() / 3)) {
 					if ((entorno.estaPresionada('w') || entorno.estaPresionada(entorno.TECLA_ARRIBA))
-							&& this.getY() > 20) {
+							&& this.getY() > 20) {		
 						this.moverArriba();
 					}
 					if ((entorno.estaPresionada('s') || entorno.estaPresionada(entorno.TECLA_ABAJO))

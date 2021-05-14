@@ -5,13 +5,11 @@
  */
 
 package juego;
-
 //import java.awt.Color;
 //import java.awt.Image;
 import entorno.Entorno;
 //import entorno.Herramientas;
 import entorno.InterfaceJuego;
-
 import java.awt.Color;
 import java.util.Random;
 
@@ -23,6 +21,7 @@ public class Juego extends InterfaceJuego {
 	private Sakura sakura;
 	private Ninja[] ninjas = new Ninja[4];
 	private Calle[] calles = new Calle[7];
+	private Sakura ramo;
 
 	// Variables y métodos propios de cada grupo
 
@@ -32,6 +31,7 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
+		this.ramo = new Sakura(sakura.getX(), sakura.getY(), 10, 15);
 
 		// Variables auxiliares.
 		int calleX = this.entorno.ancho() / 5;
@@ -90,6 +90,7 @@ public class Juego extends InterfaceJuego {
 		}
 
 		sakura.dibujarse(entorno);
+		ramo.dibujarse(entorno);
 
 		// Ninjas
 		for (int i = 0; i < ninjas.length; i++) {
@@ -111,11 +112,6 @@ public class Juego extends InterfaceJuego {
 		}
 		sakura.seMueveHori(entorno, this.calles);
 		sakura.seMueveVerti(entorno, this.calles);
-		System.out.println("sakura X: "+sakura.getX() + " sakura Y: " + sakura.getY());
-		System.out.println("Ninja 0 X: " + ninjas[0].getX() + " Ninja 0 Y: " + ninjas[0].getY());
-		System.out.println("Ninja 1 X: " + ninjas[1].getX() + " Ninja 1 Y: " + ninjas[1].getY());
-		System.out.println("Ninja 2 X: " + ninjas[2].getX() + " Ninja 2 Y: " + ninjas[2].getY());
-		System.out.println("Ninja 3 X: " + ninjas[3].getX() + " Ninja 3 Y: " + ninjas[3].getY());
 	}
 
 	@SuppressWarnings("unused")
