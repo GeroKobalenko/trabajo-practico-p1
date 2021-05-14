@@ -12,9 +12,9 @@ public class Rasengan {
     private int alto;
     private int velocidad;
     private Image imagen;
+    private Sakura sakura;
+    private Calle calle;
     
-
-
     public Rasengan(int x,int y, int alto, int ancho, int velocidad){
         this.x = x;
         this.y = y;
@@ -40,69 +40,75 @@ public class Rasengan {
     public int getVelocidad(){
         return velocidad;
     }
-    
-    public void moverRasenganY () { // El rasengan se desplaza sobre el eje y
-    	this.y +=  this.velocidad;
-    }
-    
-    public void moverRasenganX () {//El rasengan se desplaza sobre el eje x
-    	this.x +=  this.velocidad ;
-    }
-    
-    public void iniciarRasenganArriba () {
-    	this.velocidad=-8;
-    }
-    
-    public void iniciarRasenganAbajo () {
-    	this.velocidad=8;
-    }
-    
+    private void moverIzquierda() {
+		this.x = this.x - 2;
+	}
+
+	private void moverDerecha() {
+		this.x = this.x + 2;
+	}
+
+	private void moverArriba() {
+		this.y = this.y - 2;
+	}
+
+	private void moverAbajo() {
+		this.y = this.y + 2;
+	}
+
     public void dibujarse(Entorno entorno) {
 		entorno.dibujarImagen(imagen, this.x, this.y, 0, 0.07);
 	}
     
-    public boolean noEstaPresionando(Entorno entorno, char tecla) {
-		if (entorno.estaPresionada(tecla)) {
-			return false;
-		}
-		return true;
-	}
-    
-    public void DisparaRasengan(Entorno entorno,Rasengan rasengan) {  
-    	
-    	if (entorno.estaPresionada(entorno.TECLA_ESPACIO)){	
-    		
-    		if(entorno.estaPresionada(entorno.TECLA_ARRIBA)){ 
-    			
-    			if (rasengan.getVelocidad() == 0) {
-	    		
-    				rasengan.iniciarRasenganArriba(); 
-	    			}
-    		}
-    		
-    		if(entorno.estaPresionada(entorno.TECLA_ABAJO)){ 	    		
-			    if (rasengan.getVelocidad() == 0) {	    			 
-			    	
-			    	rasengan.iniciarRasenganAbajo(); 
-					}
-    		}
-			if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)){ 	    		
-				    if (rasengan.getVelocidad() == 0) {	    			 
-				    	rasengan.iniciarRasenganArriba();
-				    
-						}
-					}
-				
-				
-				if(entorno.estaPresionada(entorno.TECLA_DERECHA)){ 
-				    if (rasengan.getVelocidad() == 0) {
-					    			 
-				    	rasengan.iniciarRasenganAbajo();
-					}
-				}
-    		
-    	}
+    public void seDispara(Entorno entorno, int x,int y){
+        seMueveVerti(entorno, y);
+        seMueveHori(entorno, x);
     }
     
-   
+    public void seMueveVerti(Entorno entorno, int y) {
+		this.y=y;
+        if((entorno.estaPresionada('d') || entorno.estaPresionada(entorno.TECLA_DERECHA))){
+            this.y = this.y + 2;
+            dibujarse(entorno);
+            }
+            else{
+                 this.y = this.y - 2;
+                 dibujarse(entorno);
+                }
+        }
+    
+    public void seMueveHori(Entorno entorno,int x) {
+		this.x=x;
+        if((entorno.estaPresionada('w') || entorno.estaPresionada(entorno.TECLA_ARRIBA))){
+            this.x = this.x - 2;
+            dibujarse(entorno);
+            }
+            else{
+                this.x = this.x + 2;
+                dibujarse(entorno);
+                }
+        }
+    
+
+
+	public void seMueveHori(Entorno entorno, Calle[] calles) {
+		for (int i = 0; i < calles.length; i++) {
+			if (calles[i].esHorizontal()) {
+				if (this.y + 40 <= calles[i].getY() + (calles[i].getAlto() / 2)
+						&& this.y + 40 >= calles[i].getY() - (calles[i].getAlto() / 2)) {
+
+					if ((entorno.estaPresionada('d') || entorno.estaPresionada(entorno.TECLA_DERECHA))
+							&& this.getX() < entorno.getWidth() - 40) {
+						this.imagen = Herramientas.cargarImagen("images/sakurav2ramo.png");
+						this.moverDerecha();
+					}
+					if ((entorno.estaPresionada('a') || entorno.estaPresionada(entorno.TECLA_IZQUIERDA))
+							&& this.getX() > 25) {
+						this.imagen = Herramientas.cargarImagen("images/sakurav2ramo1.png");
+						this.moverIzquierda();
+					}
+				}
+			}
+		}
+	}
 }

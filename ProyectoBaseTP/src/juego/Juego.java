@@ -24,16 +24,16 @@ public class Juego extends InterfaceJuego {
 	private Calle[] calles = new Calle[7];
 	private Sakura ramo;
 	private Rasengan rasengan;
+	int cont=0;
 
 	// Variables y métodos propios de cada grupo
 
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Sakura Ikebana Delivery", 800, 600);
-
+		
 		// Inicializar lo que haga falta para el juego
 		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
-		this.ramo = new Sakura(sakura.getX(), sakura.getY(), 10, 15);
 		this.rasengan = new Rasengan(sakura.getX(), sakura.getY(), 10, 15, 10);
 
 		// Variables auxiliares.
@@ -92,8 +92,8 @@ public class Juego extends InterfaceJuego {
 			this.calles[i].dibujarCalles(entorno);
 		}
 
-		sakura.dibujarse(entorno);
-		ramo.dibujarse(entorno);	
+		sakura.dibujarse(entorno);	
+		
 
 		// Ninjas
 		for (int i = 0; i < ninjas.length; i++) {
@@ -115,8 +115,12 @@ public class Juego extends InterfaceJuego {
 		}
 		sakura.seMueveHori(entorno, this.calles);
 		sakura.seMueveVerti(entorno, this.calles);
-		rasengan.dibujarse(entorno);
-		rasengan.DisparaRasengan(entorno, rasengan);
+		
+		if(entorno.estaPresionada(entorno.TECLA_ESPACIO)){
+				rasengan.seDispara(entorno,sakura.getX(),sakura.getY());
+
+		}
+		
 	}
 
 	@SuppressWarnings("unused")

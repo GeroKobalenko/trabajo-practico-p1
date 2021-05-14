@@ -12,6 +12,7 @@ public class Sakura {
 	private int alto;
 	private Image imagen;
 	private Ninja ninjas;
+	private String direccion;
 
 	public Sakura(int x, int y, int alto, int ancho) {
 		this.x = x;
@@ -21,6 +22,9 @@ public class Sakura {
 		this.imagen = Herramientas.cargarImagen("images/sakurav2.png");
 	}
 
+	public String direcc(){
+		return this.direccion;
+	}
 	public int getX() {
 		return x;
 	}
@@ -39,18 +43,22 @@ public class Sakura {
 
 	private void moverIzquierda() {
 		this.x = this.x - 2;
+		this.direccion="izquierda";
 	}
 
 	private void moverDerecha() {
 		this.x = this.x + 2;
+		this.direccion="derecha";
 	}
 
 	private void moverArriba() {
 		this.y = this.y - 2;
+		this.direccion="arriba";
 	}
 
 	private void moverAbajo() {
 		this.y = this.y + 2;
+		this.direccion="abajo";
 	}
 
 	public void dibujarse(Entorno entorno) {
@@ -75,6 +83,7 @@ public class Sakura {
 					if ((entorno.estaPresionada('w') || entorno.estaPresionada(entorno.TECLA_ARRIBA))
 							&& this.getY() > 20) {		
 						this.moverArriba();
+						
 					}
 					if ((entorno.estaPresionada('s') || entorno.estaPresionada(entorno.TECLA_ABAJO))
 							&& this.getY() < entorno.getHeight() - 80) {
@@ -88,7 +97,7 @@ public class Sakura {
 	public void seMueveHori(Entorno entorno, Calle[] calles) {
 		for (int i = 0; i < calles.length; i++) {
 			if (calles[i].esHorizontal()) {
-				if (this.y /*+ 40*/ <= calles[i].getY() + (calles[i].getAlto() / 2)
+				if (this.y + 40 <= calles[i].getY() + (calles[i].getAlto() / 2)
 						&& this.y + 40 >= calles[i].getY() - (calles[i].getAlto() / 2)) {
 
 					if ((entorno.estaPresionada('d') || entorno.estaPresionada(entorno.TECLA_DERECHA))
