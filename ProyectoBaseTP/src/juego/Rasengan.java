@@ -41,16 +41,13 @@ public class Rasengan {
         return velocidad;
     }
     
-    
     public void moverRasenganY () { // El rasengan se desplaza sobre el eje y
     	this.y +=  this.velocidad;
     }
     
-    
     public void moverRasenganX () {//El rasengan se desplaza sobre el eje x
     	this.x +=  this.velocidad ;
     }
-    
     
     public void iniciarRasenganArriba () {
     	this.velocidad=-8;

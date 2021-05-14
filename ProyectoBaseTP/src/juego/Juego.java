@@ -5,6 +5,7 @@
  */
 
 package juego;
+
 //import java.awt.Color;
 //import java.awt.Image;
 import entorno.Entorno;
@@ -22,6 +23,7 @@ public class Juego extends InterfaceJuego {
 	private Ninja[] ninjas = new Ninja[4];
 	private Calle[] calles = new Calle[7];
 	private Sakura ramo;
+	private Rasengan rasengan;
 
 	// Variables y métodos propios de cada grupo
 
@@ -32,6 +34,7 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
 		this.ramo = new Sakura(sakura.getX(), sakura.getY(), 10, 15);
+		this.rasengan = new Rasengan(sakura.getX(), sakura.getY(), 10, 15, 10);
 
 		// Variables auxiliares.
 		int calleX = this.entorno.ancho() / 5;
@@ -90,7 +93,7 @@ public class Juego extends InterfaceJuego {
 		}
 
 		sakura.dibujarse(entorno);
-		ramo.dibujarse(entorno);
+		ramo.dibujarse(entorno);	
 
 		// Ninjas
 		for (int i = 0; i < ninjas.length; i++) {
