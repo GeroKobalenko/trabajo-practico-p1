@@ -109,7 +109,7 @@ public class Juego extends InterfaceJuego {
 				if (ninjas[i].tocaSakura(sakura)) {
 					this.entorno.escribirTexto("you lose", 400, 300);
 					System.out.println("TOUCHING SAKURA");
-					this.entorno.removeAll();
+//					this.entorno.removeAll();
 				}
 			}
 		}

@@ -69,6 +69,9 @@ public class Sakura {
 			if (!calles[i].esHorizontal()) {
 				if (this.x <= calles[i].getX() + (calles[i].getAncho() / 3)
 						&& this.x >= calles[i].getX() - (calles[i].getAncho() / 3)) {
+					
+					this.imagen = Herramientas.cargarImagen("images/sakurav2.png");
+					
 					if ((entorno.estaPresionada('w') || entorno.estaPresionada(entorno.TECLA_ARRIBA))
 							&& this.getY() > 20) {		
 						this.moverArriba();
@@ -90,10 +93,12 @@ public class Sakura {
 
 					if ((entorno.estaPresionada('d') || entorno.estaPresionada(entorno.TECLA_DERECHA))
 							&& this.getX() < entorno.getWidth() - 40) {
+						this.imagen = Herramientas.cargarImagen("images/sakurav2ramo.png");
 						this.moverDerecha();
 					}
 					if ((entorno.estaPresionada('a') || entorno.estaPresionada(entorno.TECLA_IZQUIERDA))
 							&& this.getX() > 25) {
+						this.imagen = Herramientas.cargarImagen("images/sakurav2ramo1.png");
 						this.moverIzquierda();
 					}
 				}
