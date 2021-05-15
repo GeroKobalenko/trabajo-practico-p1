@@ -11,14 +11,15 @@ public class Sakura {
 	private int ancho;
 	private int alto;
 	private Image imagen;
-	//private Ninja ninjas;
 	private String direccion;
+	private Rasengan poder;
 
 	public Sakura(int x, int y, int alto, int ancho) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
+		this.poder = null;
 		this.imagen = Herramientas.cargarImagen("images/sakurav2.png");
 	}
 	
@@ -33,33 +34,37 @@ public class Sakura {
 	public int getY() {
 		return y;
 	}
-
-	public int getAncho() {
-		return ancho;
+	
+	public Rasengan getRasengan() {
+		return poder;
 	}
 
-	public int getAlto() {
-		return alto;
+	void setRasengan(Rasengan rasengan) {
+		this.poder = rasengan;
 	}
 
 	private void moverIzquierda() {
 		this.x = this.x - 2;
-		this.direccion="izquierda";
+		
+		this.direccion = "izquierda";
 	}
 
 	private void moverDerecha() {
 		this.x = this.x + 2;
-		this.direccion="derecha";
+		
+		this.direccion = "derecha";
 	}
 
 	private void moverArriba() {
 		this.y = this.y - 2;
-		this.direccion="arriba";
+		
+		this.direccion = "arriba";
 	}
 
 	private void moverAbajo() {
 		this.y = this.y + 2;
-		this.direccion="abajo";
+		
+		this.direccion = "abajo";
 	}
 
 	public void dibujarse(Entorno entorno) {
@@ -114,5 +119,35 @@ public class Sakura {
 				}
 			}
 		}
+	}
+	
+	public void crearRasengan(Entorno entorno) {
+		
+		if (this.direccion == null) return;
+		
+		this.poder = new Rasengan(this.x, this.y,this.direccion);
+	}
+	
+	public void efectuarRasengan(Entorno entorno) {
+		
+		this.poder.dibujarse(entorno);
+		
+		switch (this.poder.getDireccion()) {
+		case "arriba":
+			this.poder.moverArriba();
+			break;
+		case "abajo":
+			this.poder.moverAbajo();
+			break;
+		case "derecha":
+			this.poder.moverDerecha();
+			break;
+		case "izquierda":
+			this.poder.moverIzquierda();
+			break;
+		}
+		
+		// Cuando el rasengan toque algun borde, lo nulleo.
+		if (this.poder.getX() == entorno.ancho() || this.poder.getX() == 0|| this.poder.getY() == entorno.alto() || this.poder.getY() == 0) this.poder = null;
 	}
 }

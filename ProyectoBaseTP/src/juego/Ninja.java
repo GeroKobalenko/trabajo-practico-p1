@@ -71,13 +71,26 @@ public class Ninja {
         entorno.dibujarImagen(Herramientas.cargarImagen("images/ninja.png"), this.x, this.y, 0, 0.08);
     }
 
-        public boolean tocaSakura(Sakura sakura) {
-            // GAME OVER
-                if(Math.abs(this.x-sakura.getX())<=30 && Math.abs(this.y-sakura.getY())<=47){
-                    return true;
-                }
-                return false;
-        }
+    public boolean tocaSakura(Sakura sakura) {
+    	
+        // GAME OVER
+    	
+	    if(Math.abs(this.x-sakura.getX())<=30 && Math.abs(this.y-sakura.getY())<=47){
+	        return true;
+	    }
+	    
+	    return false;
+	    
+    }
+    
+    public boolean choqueRasengan(Rasengan rasengan) {
+    	if (rasengan == null) return false;
+    	
+    	if(Math.abs(this.x-rasengan.getX())<=30 && Math.abs(this.y-rasengan.getY())<=47){
+	        return true;
+	    }
+    	return false;
+    }
 
     public void tocaBorde(Entorno entorno) {
         if (this.esHorizontal) {

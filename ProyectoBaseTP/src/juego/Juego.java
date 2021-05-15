@@ -1,6 +1,6 @@
 /**
  *
- * @autores Gutierrez, Kobalenko, Ortigoza.
+ * @autores Gutierrez, Kobalenko.
  *
  */
 
@@ -22,8 +22,6 @@ public class Juego extends InterfaceJuego {
 	private Sakura sakura;
 	private Ninja[] ninjas = new Ninja[4];
 	private Calle[] calles = new Calle[7];
-	//private Sakura ramo;
-	private Rasengan rasengan;
 	int cont=0;
 
 	// Variables y métodos propios de cada grupo
@@ -34,7 +32,6 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
-		this.rasengan = null;
 
 		// Variables auxiliares.
 		int calleX = this.entorno.ancho() / 5;
@@ -71,12 +68,6 @@ public class Juego extends InterfaceJuego {
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
-	public void crearRasegan(){
-		if(this.rasengan==null){
-			this.rasengan= new Rasengan(sakura.getX(), sakura.getY(), 10, 15, 10);
-		}	
-	}
-
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y por lo
 	 * tanto es el método más importante de esta clase. Aquí se debe actualizar el
@@ -98,6 +89,17 @@ public class Juego extends InterfaceJuego {
 		}
 
 		sakura.dibujarse(entorno);	
+		sakura.seMueveHori(entorno, this.calles);
+		sakura.seMueveVerti(entorno, this.calles);
+		
+		
+		if(this.entorno.sePresiono(entorno.TECLA_ESPACIO)){
+			if (sakura.getRasengan() == null) sakura.crearRasengan(entorno);
+		}
+		
+		if (sakura.getRasengan() != null) {
+			this.sakura.efectuarRasengan(entorno);
+		}
 		
 
 		// Ninjas
@@ -110,19 +112,20 @@ public class Juego extends InterfaceJuego {
 				} else {
 					ninjas[i].moverY();
 				}
-				// Para implementar cuando el ninja toca al pj
-				if (ninjas[i].tocaSakura(sakura)) {
-					this.entorno.escribirTexto("you lose", 400, 300);
-					System.out.println("TOUCHING SAKURA");
-					//this.entorno.removeAll();
+				
+				// Verifica la colision del Rasengan respecto a los ninjas
+				
+				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
+					sakura.setRasengan(null);
+					ninjas[i] = null;
 				}
+				// Para implementar cuando el ninja toca al pj
+//				if (ninjas[i].tocaSakura(sakura)) {
+//					this.entorno.escribirTexto("you lose", 400, 300);
+////					System.out.println("TOUCHING SAKURA");
+//					//this.entorno.removeAll();
+//				}
 			}
-		}
-		sakura.seMueveHori(entorno, this.calles);
-		sakura.seMueveVerti(entorno, this.calles);
-
-		if(this.entorno.estaPresionada(entorno.TECLA_ESPACIO)){
-			rasengan.movRasengan(sakura, entorno);
 		}
 	}
 
