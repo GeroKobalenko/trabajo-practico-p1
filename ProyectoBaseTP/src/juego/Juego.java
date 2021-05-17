@@ -22,8 +22,34 @@ public class Juego extends InterfaceJuego {
 	private Sakura sakura;
 	private Ninja[] ninjas = new Ninja[4];
 	private Calle[] calles = new Calle[7];
-	int cont=0;
+	private boolean movimiento=false;
+	private boolean esHori=true;
 
+	/*public int cont() {
+		int cont=1000000;
+		for(int i = 0; i<1000000; i++) {}
+		return cont;
+	}*/
+
+	public void IniciarNinjas(int x, boolean esHori, boolean movimiento) {
+		// Instancio los ninjas
+		Random rant = new Random();
+		int xNinja = this.entorno.ancho() / 5;
+		for (int i = 0; i < this.ninjas.length; i++) {
+			if (x == i) {
+				if (esHori) {
+					this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 1, esHori,
+							movimiento); // null;
+				} else {
+					this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 1, esHori, movimiento);
+					//movimiento = !movimiento;
+					xNinja = xNinja + this.entorno.ancho() / 4 + this.entorno.ancho() / 20;
+				}
+				//esHorizontal = !esHorizontal;
+			}
+		}
+
+	}
 	// Variables y métodos propios de cada grupo
 
 	Juego() {
@@ -47,22 +73,10 @@ public class Juego extends InterfaceJuego {
 				calleX = calleX + this.entorno.ancho() / 4 + this.entorno.ancho() / 20;
 			}
 		}
-
-		// Instancio los ninjas
-		boolean esHorizontal = true;
-		boolean movimiento = false;
-		Random rant = new Random();
-		int xNinja = this.entorno.ancho() / 5;
-		for (int i = 0; i < this.ninjas.length; i++) {
-			if (esHorizontal) {
-				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 1, esHorizontal,
-						movimiento); // null;
-			} else {
-				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 1, esHorizontal, movimiento);
-				movimiento = !movimiento;
-				xNinja = xNinja + this.entorno.ancho() / 4 + this.entorno.ancho() / 20;
-			}
-			esHorizontal = !esHorizontal;
+		for(int i=0; i < ninjas.length;i++) {
+			IniciarNinjas(i,esHori,movimiento);
+			esHori= !esHori;
+			movimiento= !movimiento;
 		}
 
 		// Inicia el juego!
@@ -118,6 +132,14 @@ public class Juego extends InterfaceJuego {
 				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
 					sakura.setRasengan(null);
 					ninjas[i] = null;
+				}
+				if(ninjas[i]==null) {
+					if(i%2!=0) {
+						movimiento= !movimiento;
+						esHori= !esHori;
+						IniciarNinjas(i,this.esHori,this.movimiento);
+					
+					}	
 				}
 				// Para implementar cuando el ninja toca al pj
 //				if (ninjas[i].tocaSakura(sakura)) {
