@@ -24,31 +24,19 @@ public class Juego extends InterfaceJuego {
 	private Calle[] calles = new Calle[7];
 	private boolean movimiento=false;
 	private boolean esHori=true;
+	private int xNinja;
+	private int yNinja;
+	
 
-	/*public int cont() {
-		int cont=1000000;
-		for(int i = 0; i<1000000; i++) {}
-		return cont;
-	}*/
-
-	public void IniciarNinjas(int x, boolean esHori, boolean movimiento) {
-		// Instancio los ninjas
+	// Instancio los ninjas
+	public void IniciarNinjas(int x, boolean esHori, boolean movimiento, int xNinja, int yNinja) {
 		Random rant = new Random();
-		int xNinja = this.entorno.ancho() / 5;
 		for (int i = 0; i < this.ninjas.length; i++) {
 			if (x == i) {
-				if (esHori) {
-					this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 1, esHori,
-							movimiento); // null;
-				} else {
-					this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 1, esHori, movimiento);
-					//movimiento = !movimiento;
-					xNinja = xNinja + this.entorno.ancho() / 4 + this.entorno.ancho() / 20;
-				}
-				//esHorizontal = !esHorizontal;
+				if (esHori) { this.ninjas[i] = new Ninja(rant.nextInt(800),yNinja, 10, 15, 1, esHori,movimiento); } 
+				else {this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 1, esHori, movimiento); }
 			}
 		}
-
 	}
 	// Variables y métodos propios de cada grupo
 
@@ -73,10 +61,34 @@ public class Juego extends InterfaceJuego {
 				calleX = calleX + this.entorno.ancho() / 4 + this.entorno.ancho() / 20;
 			}
 		}
+		//Inicializo los ninjas
+		int xNinja = this.entorno.ancho() / 5;
+		int yNinja = (this.entorno.alto() / 6) - 10 ;
 		for(int i=0; i < ninjas.length;i++) {
-			IniciarNinjas(i,esHori,movimiento);
-			esHori= !esHori;
-			movimiento= !movimiento;
+			if(i%2!=0){
+				if(i==3) {
+					xNinja = xNinja + this.entorno.ancho() / 4 + this.entorno.ancho() / 20;
+					IniciarNinjas(i,esHori,movimiento,xNinja,yNinja); 
+					movimiento= !movimiento;
+					esHori= !esHori;
+				}
+					else{
+						IniciarNinjas(i,esHori,movimiento,xNinja,yNinja); 
+						esHori= !esHori;
+						movimiento= !movimiento;
+					}	
+			}
+			else{
+				if(i==2){
+					yNinja= ((this.entorno.alto() / 6) *4) - 20 ;
+					IniciarNinjas(i,esHori,movimiento,xNinja,yNinja); 
+					esHori= !esHori;
+				}
+				else{
+					IniciarNinjas(i,esHori,movimiento,xNinja,yNinja); 
+					esHori= !esHori;
+				}
+			}
 		}
 
 		// Inicia el juego!
@@ -126,7 +138,7 @@ public class Juego extends InterfaceJuego {
 				} else {
 					ninjas[i].moverY();
 				}
-				
+
 				// Verifica la colision del Rasengan respecto a los ninjas
 				
 				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
@@ -134,13 +146,36 @@ public class Juego extends InterfaceJuego {
 					ninjas[i] = null;
 				}
 				if(ninjas[i]==null) {
-					if(i%2!=0) {
-						movimiento= !movimiento;
-						esHori= !esHori;
-						IniciarNinjas(i,this.esHori,this.movimiento);
-					
-					}	
-				}
+						if(i%2!=0) {
+							if(i==1){
+								this.movimiento= false;
+								this.esHori= false;
+								xNinja =(this.entorno.ancho() / 4)-40;
+								IniciarNinjas(i,esHori,movimiento,xNinja,yNinja);
+							}
+							else{
+								this.esHori= false;
+								this.movimiento= true;
+								xNinja = this.entorno.ancho() / 2;
+								IniciarNinjas(i,esHori,movimiento,xNinja,yNinja);
+							}
+						}	
+						else{
+							if(i==0){
+								this.esHori=true;
+								yNinja= (this.entorno.alto()/6)-10;
+								IniciarNinjas(i,esHori,movimiento,xNinja,yNinja);
+							}
+							else{
+								this.esHori=true;
+								this.movimiento=true;
+								yNinja= ((this.entorno.alto()/6) * 4) - 20;
+								IniciarNinjas(i,esHori,movimiento,xNinja,yNinja);
+							}
+					}
+					ninjaMuerto=false;
+				
+			}
 				// Para implementar cuando el ninja toca al pj
 //				if (ninjas[i].tocaSakura(sakura)) {
 //					this.entorno.escribirTexto("you lose", 400, 300);
