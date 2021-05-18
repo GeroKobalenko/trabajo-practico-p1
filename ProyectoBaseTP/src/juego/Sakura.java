@@ -125,7 +125,7 @@ public class Sakura {
 		
 		if (this.direccion == null) return;
 		
-		this.poder = new Rasengan(this.x, this.y,this.direccion);
+		this.poder = new Rasengan(this.x, this.y+20,this.direccion);
 	}
 	
 	public void efectuarRasengan(Entorno entorno) {

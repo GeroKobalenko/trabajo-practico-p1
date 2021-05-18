@@ -173,7 +173,6 @@ public class Juego extends InterfaceJuego {
 								IniciarNinjas(i,esHori,movimiento,xNinja,yNinja);
 							}
 					}
-					ninjaMuerto=false;
 				
 			}
 				// Para implementar cuando el ninja toca al pj
