@@ -12,6 +12,7 @@ public class Ninja {
     private int velocidad;
     private boolean esHorizontal;
     private boolean tipoMovimiento;
+    private Juego juego;
     /*private int distanciaX;
     private int distanciaY;
     private Sakura sakura;
@@ -26,7 +27,6 @@ public class Ninja {
         this.esHorizontal = esHorizontal;
         this.tipoMovimiento = tipoMovimiento;
     }
-
     public int getX() {
         return x;
     }
