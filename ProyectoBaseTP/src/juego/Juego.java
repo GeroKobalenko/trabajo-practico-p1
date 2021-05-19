@@ -78,10 +78,9 @@ public class Juego extends InterfaceJuego {
 		int xNinja = this.entorno.ancho()/4 - 10;
 		for (int i = 0; i < this.ninjas.length; i++) {
 			if (esHorizontal) {
-				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 1, esHorizontal,
-						movimiento); // null;
+				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 2, esHorizontal,movimiento);
 			} else {
-				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 1, esHorizontal, movimiento);
+				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 2, esHorizontal, movimiento);
 				movimiento = !movimiento;
 				xNinja = xNinja + this.entorno.ancho()/4 + 10;
 			}
@@ -103,7 +102,7 @@ public class Juego extends InterfaceJuego {
 		for (Manzana manzana : manzanas) {
 			manzana.dibujarManzana(entorno);
 			for (Casa casa : manzana.getCasas()) {
-				casa.dibujarCasa(entorno);
+				if (casa != null) casa.dibujarCasa(entorno);
 			}
 		}
 	}
@@ -114,68 +113,11 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 	
-	
-//	public void tiempo() {
-//		this.tiempo = new Timer();
-//		this.tiempo.s
-//	}
-	
-	/**
-	 * Durante el juego, el método tick() será ejecutado en cada instante y por lo
-	 * tanto es el método más importante de esta clase. Aquí se debe actualizar el
-	 * estado interno del juego para simular el paso del tiempo (ver el enunciado
-	 * del TP para mayor detalle).
-	 */
-	
-	public void tick() {
-		// Procesamiento de un instante de tiempo
-		// ...
+	void dibujarNinjas() {
 
-		// Llamo los metodos para dibujar los objetos.
-		this.dibujarManzanas();
-		this.dibujarCalles();
-		
-		sakura.dibujarse(entorno);	
-		sakura.seMueveHori(entorno, this.calles);
-		sakura.seMueveVerti(entorno, this.calles);
-		
-		if(this.entorno.sePresiono(entorno.TECLA_ESPACIO)){
-			if (sakura.getRasengan() == null) sakura.crearRasengan(entorno);
-		}
-		
-		if (sakura.getRasengan() != null) this.sakura.efectuarRasengan(entorno);
-		
-
-		// Ninjas
-//		for (int i = 0; i < ninjas.length; i++) {
-//			if (ninjas[i] != null) {
-//				ninjas[i].dibujar(entorno);
-//				ninjas[i].tocaBorde(entorno);
-//				if (ninjas[i].getEsHorizontal()) {
-//					ninjas[i].moverX();
-//				} else {
-//					ninjas[i].moverY();
-//				}
-//				
-//				// Verifica la colision del Rasengan respecto a los ninjas
-//				
-//				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
-//					sakura.setRasengan(null);
-//					ninjas[i] = null;
-//				}
-//				// Para implementar cuando el ninja toca al pj
-////				if (ninjas[i].tocaSakura(sakura)) {
-////					this.entorno.escribirTexto("you lose", 400, 300);
-//////					System.out.println("TOUCHING SAKURA");
-////					//this.entorno.removeAll();
-////				}
-//			}
-//		}
-		
-		
-		
-		// Ninjas
 		for (int i = 0; i < ninjas.length; i++) {
+			Ninja ninjaAux = ninjas[i];
+			
 			if (ninjas[i] != null) {
 				ninjas[i].dibujar(entorno);
 				ninjas[i].tocaBorde(entorno);
@@ -184,8 +126,8 @@ public class Juego extends InterfaceJuego {
 				} else {
 					ninjas[i].moverY();
 				}
+				
 				// Verifica la colision del Rasengan respecto a los ninjas
-
 				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
 					sakura.setRasengan(null);
 					ninjas[i] = null;
@@ -193,6 +135,19 @@ public class Juego extends InterfaceJuego {
 					ninjaI[i] = i;
 				}
 			}
+//			else {
+//				if (ninjaI[i] == 0) {
+//					contI[i] = contI[i]+1;
+//					if (contI[0] > 300) {
+//						this.esHori = true;
+//						yNinja = (this.entorno.alto() / 6) - 10;
+//						iniciarNinja(ninjaI[0], esHori, movimiento, xNinja, yNinja);
+//						ninjaI[i] = -1;
+//						contI[i] = 0;
+//					}
+//				}
+////				ninjas[i] = new Ninja();
+//			}
 			// System.out.println(cont);
 			// Para implementar cuando el ninja toca al pj
 			// if (ninjas[i].tocaSakura(sakura)) {
@@ -235,7 +190,7 @@ public class Juego extends InterfaceJuego {
 				contI[2] = 0;
 			}
 		}
-		if (ninjaI[3] == 3 && ninjas[1]==null) {
+		if (ninjaI[3] == 3 && ninjas[3]==null) {
 			contI[3] = contI[3]+1;
 			if (contI[3] > 300) {
 				this.movimiento=true;
@@ -247,12 +202,80 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 	}
-				// Para implementar cuando el ninja toca al pj
-//						if (ninjas[i].tocaSakura(sakura)) {
-//							this.entorno.escribirTexto("you lose", 400, 300);
-////							System.out.println("TOUCHING SAKURA");
-//							//this.entorno.removeAll();
-//						}
+	
+	void reaparecerNinja() {
+		
+	}
+	
+	
+//	public void tiempo() {
+//		this.tiempo = new Timer();
+//		this.tiempo.s
+//	}
+	
+	/**
+	 * Durante el juego, el método tick() será ejecutado en cada instante y por lo
+	 * tanto es el método más importante de esta clase. Aquí se debe actualizar el
+	 * estado interno del juego para simular el paso del tiempo (ver el enunciado
+	 * del TP para mayor detalle).
+	 */
+	
+	public void tick() {
+		// Procesamiento de un instante de tiempo
+		// ...
+
+		// Llamo los metodos para dibujar los objetos.
+		this.dibujarManzanas();
+		this.dibujarCalles();
+		this.dibujarNinjas();
+		
+		sakura.dibujarse(entorno);	
+		sakura.seMueveHori(entorno, this.calles);
+		sakura.seMueveVerti(entorno, this.calles);
+		
+		if(this.entorno.sePresiono(entorno.TECLA_ESPACIO)){
+			if (sakura.getRasengan() == null) sakura.crearRasengan(entorno);
+		}
+		if (sakura.getRasengan() != null) this.sakura.efectuarRasengan(entorno);
+		
+		
+	}
+		
+		
+		
+
+		// Ninjas
+//		for (int i = 0; i < ninjas.length; i++) {
+//			if (ninjas[i] != null) {
+//				ninjas[i].dibujar(entorno);
+//				ninjas[i].tocaBorde(entorno);
+//				if (ninjas[i].getEsHorizontal()) {
+//					ninjas[i].moverX();
+//				} else {
+//					ninjas[i].moverY();
+//				}
+//				
+//				// Verifica la colision del Rasengan respecto a los ninjas
+//				
+//				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
+//					sakura.setRasengan(null);
+//					ninjas[i] = null;
+//				}
+//				// Para implementar cuando el ninja toca al pj
+////				if (ninjas[i].tocaSakura(sakura)) {
+////					this.entorno.escribirTexto("you lose", 400, 300);
+//////					System.out.println("TOUCHING SAKURA");
+////					//this.entorno.removeAll();
+////				}
+//			}
+//		}
+		
+	// Para implementar cuando el ninja toca al pj
+//	if (ninjas[i].tocaSakura(sakura)) {
+//	this.entorno.escribirTexto("you lose", 400, 300);
+//	System.out.println("TOUCHING SAKURA");
+//	this.entorno.removeAll();
+//	}
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {

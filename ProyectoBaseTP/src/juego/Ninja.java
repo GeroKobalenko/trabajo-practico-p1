@@ -12,11 +12,6 @@ public class Ninja {
     private int velocidad;
     private boolean esHorizontal;
     private boolean tipoMovimiento;
-    private Juego juego;
-    /*private int distanciaX;
-    private int distanciaY;
-    private Sakura sakura;
-    private Calle calle;*/
 
     public Ninja(int x, int y, int alto, int ancho, int velocidad, boolean esHorizontal, boolean tipoMovimiento) {
         this.x = x;
@@ -72,8 +67,6 @@ public class Ninja {
     }
 
     public boolean tocaSakura(Sakura sakura) {
-    	
-        // GAME OVER
     	
 	    if(Math.abs(this.x-sakura.getX())<=30 && Math.abs(this.y-sakura.getY())<=47){
 	        return true;

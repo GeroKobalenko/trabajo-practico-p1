@@ -1,11 +1,7 @@
 package juego;
 
 import java.awt.Color;
-//import java.util.Random;
-import java.util.LinkedList;
-
 import entorno.Entorno;
-//import entorno.Herramientas;
 
 public class Manzana {
 
@@ -13,14 +9,13 @@ public class Manzana {
 	private int y;
 	private int ancho;
 	private int alto;
-	private LinkedList<Casa> casas;
+	private Casa[] casas = new Casa[4];
 
 	Manzana(int x, int y, int ancho, int alto) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
-		this.casas = new LinkedList<Casa>();
 		
 		crearCasas();
 	}
@@ -41,7 +36,7 @@ public class Manzana {
 		return alto;
 	}
 	
-	public LinkedList<Casa> getCasas() {
+	public Casa[] getCasas() {
 		return casas;
 	}
 	
@@ -62,7 +57,8 @@ public class Manzana {
 				(xCasa == xyEsquinaIzq && yCasa == yEsquinaInf) ||
 				(xCasa == xEsquinaDer && yCasa == yEsquinaInf)) add = false;
 			
-			if (add) this.casas.add(new Casa(xCasa, yCasa));
+			if (add) this.casas[i] = new Casa(xCasa, yCasa);
+//			this.casas.add(new Casa(xCasa, yCasa))
 			
 			xCasa = x + ancho/2 - 25;
 			if (i == 1) {
