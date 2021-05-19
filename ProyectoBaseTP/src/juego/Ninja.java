@@ -22,6 +22,13 @@ public class Ninja {
         this.esHorizontal = esHorizontal;
         this.tipoMovimiento = tipoMovimiento;
     }
+    
+    public void print() {
+    	System.out.println(this.x);
+    	System.out.println(this.y);
+    	System.out.println(this.esHorizontal);
+    	System.out.println(this.tipoMovimiento);
+    }
     public int getX() {
         return x;
     }

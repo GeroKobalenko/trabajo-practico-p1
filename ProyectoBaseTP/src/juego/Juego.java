@@ -2,8 +2,6 @@ package juego;
 
 import entorno.Entorno;
 import entorno.InterfaceJuego;
-import java.awt.Color;
-import java.util.LinkedList;
 import java.util.Random;
 
 
@@ -11,23 +9,17 @@ public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Sakura sakura;
+	private Puntaje puntaje;
 	private Ninja[] ninjas = new Ninja[6];
 	private Calle[] calles = new Calle[6];
 	private Manzana[] manzanas = new Manzana[16];
-	private boolean movimiento=false;
-	private boolean esHori=true;
-	private int xNinja;
-	private int yNinja;
-	private int[] contI = { 0, 0, 0, 0 };
-	private int[] ninjaI = { -1, -1, -1, -1 };
-	
-//	private Timer tiempo = new Timer();
-//	private TimerTask task;
-//	private int segundos = 0;
+	private int[] contI = { 0, 0, 0, 0, 0, 0 };
+	private int[] ninjaI = { -1, -1, -1, -1, -1, -1 };
 
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Sakura Ikebana Delivery", 800, 600);
+		this.puntaje = new Puntaje(700, 30, 0);
 		
 		// Inicializar lo que haga falta para el juego
 		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
@@ -87,17 +79,7 @@ public class Juego extends InterfaceJuego {
 			esHorizontal = !esHorizontal;
 		}
 	}
-	
-	public void iniciarNinja(int x, boolean esHori, boolean movimiento, int xNinja, int yNinja) {
-		Random rant = new Random();
-		for (int i = 0; i < this.ninjas.length; i++) {
-			if (x == i) {
-				if (esHori) { this.ninjas[i] = new Ninja(rant.nextInt(800),yNinja, 10, 15, 1, esHori,movimiento); } 
-				else {this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 1, esHori, movimiento); }
-			}
-		}
-	}
-	
+
 	void dibujarManzanas() {
 		for (Manzana manzana : manzanas) {
 			manzana.dibujarManzana(entorno);
@@ -114,10 +96,8 @@ public class Juego extends InterfaceJuego {
 	}
 	
 	void dibujarNinjas() {
-
+		boolean esHorizontal = true;
 		for (int i = 0; i < ninjas.length; i++) {
-			Ninja ninjaAux = ninjas[i];
-			
 			if (ninjas[i] != null) {
 				ninjas[i].dibujar(entorno);
 				ninjas[i].tocaBorde(entorno);
@@ -126,29 +106,32 @@ public class Juego extends InterfaceJuego {
 				} else {
 					ninjas[i].moverY();
 				}
-				
 				// Verifica la colision del Rasengan respecto a los ninjas
 				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
 					sakura.setRasengan(null);
 					ninjas[i] = null;
-					// ninjai = i;
 					ninjaI[i] = i;
+					puntaje.sumarPts(1);
 				}
 			}
-//			else {
-//				if (ninjaI[i] == 0) {
-//					contI[i] = contI[i]+1;
-//					if (contI[0] > 300) {
-//						this.esHori = true;
-//						yNinja = (this.entorno.alto() / 6) - 10;
-//						iniciarNinja(ninjaI[0], esHori, movimiento, xNinja, yNinja);
-//						ninjaI[i] = -1;
-//						contI[i] = 0;
-//					}
-//				}
-////				ninjas[i] = new Ninja();
-//			}
-			// System.out.println(cont);
+			else {
+				contI[i] = contI[i]+1;
+				// Ver segun conveniencia de tiempo.
+				if (contI[i] > 500) {
+					Random rant = new Random();
+						if (!esHorizontal) {
+							int xNinja = this.calles[i].getX();
+							ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 2, esHorizontal, !esHorizontal);
+						}
+						else {
+							ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 2, esHorizontal, !esHorizontal);
+						}
+						contI[i] = 0;
+					}
+					ninjaI[i] = -1;
+			}
+			esHorizontal = !esHorizontal;
+			
 			// Para implementar cuando el ninja toca al pj
 			// if (ninjas[i].tocaSakura(sakura)) {
 			// this.entorno.escribirTexto("you lose", 400, 300);
@@ -156,62 +139,7 @@ public class Juego extends InterfaceJuego {
 			// //this.entorno.removeAll();
 			// }
 		}
-		if (ninjaI[0] == 0 && ninjas[0]==null) {
-			//System.out.println("0");
-			contI[0] = contI[0]+1;
-			System.out.println(contI[0]);
-			if (contI[0] > 300) {
-				this.esHori = true;
-				yNinja = (this.entorno.alto() / 6) - 10;
-				iniciarNinja(ninjaI[0], esHori, movimiento, xNinja, yNinja);
-				ninjaI[0] = -1;
-				contI[0] = 0;
-			}
-		}
-		if (ninjaI[1] == 1 && ninjas[1]==null) {
-			contI[1] = contI[1]+1;
-			if (contI[1] > 300) {
-				this.movimiento=false;
-				this.esHori = false;
-				xNinja = (this.entorno.ancho() / 4) - 40;
-				iniciarNinja(ninjaI[1], esHori, movimiento, xNinja, yNinja);
-				ninjaI[1] = -1;
-				contI[1] = 0;
-			}
-		}
-		if (ninjaI[2] == 2 && ninjas[2]==null) {
-			contI[2] = contI[2]+1;
-			if (contI[2] > 300) {
-				this.movimiento=true;
-				this.esHori = true;
-				yNinja = ((this.entorno.alto() / 6) * 4) - 10;
-				iniciarNinja(ninjaI[2], esHori, movimiento, xNinja, yNinja);
-				ninjaI[2] = -1;
-				contI[2] = 0;
-			}
-		}
-		if (ninjaI[3] == 3 && ninjas[3]==null) {
-			contI[3] = contI[3]+1;
-			if (contI[3] > 300) {
-				this.movimiento=true;
-				this.esHori = false;
-				xNinja = this.entorno.ancho() / 2;
-				iniciarNinja(ninjaI[3], esHori, movimiento, xNinja, yNinja);
-				ninjaI[3] = -1;
-				contI[3] = 0;
-			}
-		}
 	}
-	
-	void reaparecerNinja() {
-		
-	}
-	
-	
-//	public void tiempo() {
-//		this.tiempo = new Timer();
-//		this.tiempo.s
-//	}
 	
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y por lo
@@ -238,44 +166,8 @@ public class Juego extends InterfaceJuego {
 		}
 		if (sakura.getRasengan() != null) this.sakura.efectuarRasengan(entorno);
 		
-		
+		puntaje.dibujarse(entorno);
 	}
-		
-		
-		
-
-		// Ninjas
-//		for (int i = 0; i < ninjas.length; i++) {
-//			if (ninjas[i] != null) {
-//				ninjas[i].dibujar(entorno);
-//				ninjas[i].tocaBorde(entorno);
-//				if (ninjas[i].getEsHorizontal()) {
-//					ninjas[i].moverX();
-//				} else {
-//					ninjas[i].moverY();
-//				}
-//				
-//				// Verifica la colision del Rasengan respecto a los ninjas
-//				
-//				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
-//					sakura.setRasengan(null);
-//					ninjas[i] = null;
-//				}
-//				// Para implementar cuando el ninja toca al pj
-////				if (ninjas[i].tocaSakura(sakura)) {
-////					this.entorno.escribirTexto("you lose", 400, 300);
-//////					System.out.println("TOUCHING SAKURA");
-////					//this.entorno.removeAll();
-////				}
-//			}
-//		}
-		
-	// Para implementar cuando el ninja toca al pj
-//	if (ninjas[i].tocaSakura(sakura)) {
-//	this.entorno.escribirTexto("you lose", 400, 300);
-//	System.out.println("TOUCHING SAKURA");
-//	this.entorno.removeAll();
-//	}
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
