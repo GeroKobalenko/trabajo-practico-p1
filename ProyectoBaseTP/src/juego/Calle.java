@@ -36,7 +36,7 @@ public class Calle {
     /*public void dibujarse(Entorno entorno){
         entorno.dibujarImagen(imagen, this.x, this.y, angulo, escala);
     }*/
-    public void dibujarCalles(Entorno entorno) {
+    public void dibujarCalle(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(204,204,204));
     }
 }

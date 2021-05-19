@@ -2,6 +2,7 @@ package juego;
 
 import java.awt.Color;
 //import java.util.Random;
+import java.util.LinkedList;
 
 import entorno.Entorno;
 //import entorno.Herramientas;
@@ -12,14 +13,16 @@ public class Manzana {
 	private int y;
 	private int ancho;
 	private int alto;
-	//private Casa[] casas;
+	private LinkedList<Casa> casas;
 
-	Manzana(int x, int y, int ancho, int alto, Casa[] casas) {
+	Manzana(int x, int y, int ancho, int alto) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
-		//this.casas = casas;
+		this.casas = new LinkedList<Casa>();
+		
+		crearCasas();
 	}
 
 	public int getX() {
@@ -37,9 +40,40 @@ public class Manzana {
 	public int getAlto() {
 		return alto;
 	}
+	
+	public LinkedList<Casa> getCasas() {
+		return casas;
+	}
+	
+	public void crearCasas() {
+		/** Variables auxiliares */
+		int xEsquinaDer = 775;
+		int xyEsquinaIzq = 25;
+		int yEsquinaInf = 585;
+		
+		int yCasa = y - alto/2 + 25;
+		int xCasa = x - ancho/2 + 25;
+		
+		for (int i = 0 ; i < 4 ; i++) {
+			boolean add = true;
+			//Diferentes if para no crear casas en lugares que Sakura no pueda acceder.
+			if ((xCasa == xyEsquinaIzq && yCasa == xyEsquinaIzq) || 
+				(xCasa == xEsquinaDer && yCasa == xyEsquinaIzq) ||
+				(xCasa == xyEsquinaIzq && yCasa == yEsquinaInf) ||
+				(xCasa == xEsquinaDer && yCasa == yEsquinaInf)) add = false;
+			
+			if (add) this.casas.add(new Casa(xCasa, yCasa));
+			
+			xCasa = x + ancho/2 - 25;
+			if (i == 1) {
+				yCasa = y + alto/2 - 25;
+				xCasa = x - ancho/2 + 25;
+			}
+		}
+	}
 
 	public void dibujarManzana(Entorno entorno) {
 		// Random rant = new Random();
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(125, 213, 123));
+		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, new Color(125,213,123));
 	}
 }

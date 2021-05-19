@@ -1,4 +1,5 @@
 package juego;
+import java.awt.Color;
 import java.awt.Image;
 import java.util.Random;
 
@@ -15,10 +16,10 @@ public class Casa {
 		this.y = y;
 		
 		Random rant = new Random();
-		this.imagen = Herramientas.cargarImagen("images/casa1"+rant.nextInt(3)+".png");
+		this.imagen = Herramientas.cargarImagen("images/casa0"+rant.nextInt(2)+".png");
 	}
 	
-	public void dibujarse(Entorno entorno) {
-		entorno.dibujarImagen(imagen, this.x, this.y, 0, 0.5);
+	public void dibujarCasa(Entorno entorno) {
+		entorno.dibujarImagen(imagen, this.x, this.y, 0, 0.09);
 	}
 }
