@@ -4,7 +4,6 @@ import entorno.Entorno;
 import entorno.InterfaceJuego;
 import java.util.Random;
 
-
 public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
@@ -20,61 +19,61 @@ public class Juego extends InterfaceJuego {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Sakura Ikebana Delivery", 800, 600);
 		this.puntaje = new Puntaje(700, 30, 0);
-		
+
 		// Inicializar lo que haga falta para el juego
 		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
 		this.inicializarManzanas();
 		this.inicializarCalles();
 		this.inicializarNinjas();
-
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
-	
+
 	void inicializarCalles() {
-		//Posiciones de clles iniciales
+		// Posiciones de clles iniciales
 		int calleX = 190;
 		int calleY = 145;
 		// Ciclo y añado un objeto Calle a cada elemento del array.
 		for (int i = 0; i < calles.length; i++) {
 			if (i < 3) {
 				this.calles[i] = new Calle(this.entorno.ancho() / 2, calleY, 30, this.entorno.ancho(), true);
-				calleY = calleY + this.entorno.alto()/4 + 10;
+				calleY = calleY + this.entorno.alto() / 4 + 10;
 			} else {
 				this.calles[i] = new Calle(calleX, this.entorno.alto() / 2, this.entorno.alto(), 40, false);
-				calleX = calleX + this.entorno.ancho()/4 + 10;
+				calleX = calleX + this.entorno.ancho() / 4 + 10;
 			}
 		}
 	}
-	
+
 	void inicializarManzanas() {
 		int anchoManzana = 170;
 		int altoManzana = 130;
 		int xManzana = 85;
 		int yManzana = 65;
-		
+
 		for (int i = 0; i < manzanas.length; i++) {
-			manzanas[i] = new Manzana(xManzana,yManzana,anchoManzana,altoManzana);
-			xManzana = xManzana + anchoManzana + this.entorno.ancho()/20;
+			manzanas[i] = new Manzana(xManzana, yManzana, anchoManzana, altoManzana);
+			xManzana = xManzana + anchoManzana + this.entorno.ancho() / 20;
 			if (xManzana >= this.entorno.ancho()) {
 				xManzana = 85;
-				yManzana = yManzana + altoManzana + this.entorno.alto()/20;
+				yManzana = yManzana + altoManzana + this.entorno.alto() / 20;
 			}
 		}
 	}
-	
+
 	void inicializarNinjas() {
 		boolean esHorizontal = true;
 		boolean movimiento = false;
 		Random rant = new Random();
-		int xNinja = this.entorno.ancho()/4 - 10;
+		int xNinja = this.entorno.ancho() / 4 - 10;
 		for (int i = 0; i < this.ninjas.length; i++) {
 			if (esHorizontal) {
-				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 2, esHorizontal,movimiento);
+				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 2, esHorizontal,
+						movimiento);
 			} else {
 				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 2, esHorizontal, movimiento);
 				movimiento = !movimiento;
-				xNinja = xNinja + this.entorno.ancho()/4 + 10;
+				xNinja = xNinja + this.entorno.ancho() / 4 + 10;
 			}
 			esHorizontal = !esHorizontal;
 		}
@@ -84,17 +83,18 @@ public class Juego extends InterfaceJuego {
 		for (Manzana manzana : manzanas) {
 			manzana.dibujarManzana(entorno);
 			for (Casa casa : manzana.getCasas()) {
-				if (casa != null) casa.dibujarCasa(entorno);
+				if (casa != null)
+					casa.dibujarCasa(entorno);
 			}
 		}
 	}
-	
+
 	void dibujarCalles() {
 		for (Calle calle : calles) {
 			calle.dibujarCalle(entorno);
 		}
 	}
-	
+
 	void dibujarNinjas() {
 		boolean esHorizontal = true;
 		for (int i = 0; i < ninjas.length; i++) {
@@ -113,25 +113,24 @@ public class Juego extends InterfaceJuego {
 					ninjaI[i] = i;
 					puntaje.sumarPts(1);
 				}
-			}
-			else {
-				contI[i] = contI[i]+1;
+			} else {
+				contI[i] = contI[i] + 1;
 				// Ver segun conveniencia de tiempo.
 				if (contI[i] > 500) {
 					Random rant = new Random();
-						if (!esHorizontal) {
-							int xNinja = this.calles[i].getX();
-							ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 2, esHorizontal, !esHorizontal);
-						}
-						else {
-							ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 2, esHorizontal, !esHorizontal);
-						}
-						contI[i] = 0;
+					if (!esHorizontal) {
+						int xNinja = this.calles[i].getX();
+						ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 2, esHorizontal, !esHorizontal);
+					} else {
+						ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 2, esHorizontal,
+								!esHorizontal);
 					}
-					ninjaI[i] = -1;
+					contI[i] = 0;
+				}
+				ninjaI[i] = -1;
 			}
 			esHorizontal = !esHorizontal;
-			
+
 			// Para implementar cuando el ninja toca al pj
 			// if (ninjas[i].tocaSakura(sakura)) {
 			// this.entorno.escribirTexto("you lose", 400, 300);
@@ -140,14 +139,14 @@ public class Juego extends InterfaceJuego {
 			// }
 		}
 	}
-	
+
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y por lo
 	 * tanto es el método más importante de esta clase. Aquí se debe actualizar el
 	 * estado interno del juego para simular el paso del tiempo (ver el enunciado
 	 * del TP para mayor detalle).
 	 */
-	
+
 	public void tick() {
 		// Procesamiento de un instante de tiempo
 		// ...
@@ -156,16 +155,18 @@ public class Juego extends InterfaceJuego {
 		this.dibujarManzanas();
 		this.dibujarCalles();
 		this.dibujarNinjas();
-		
-		sakura.dibujarse(entorno);	
+
+		sakura.dibujarse(entorno);
 		sakura.seMueveHori(entorno, this.calles);
 		sakura.seMueveVerti(entorno, this.calles);
-		
-		if(this.entorno.sePresiono(entorno.TECLA_ESPACIO)){
-			if (sakura.getRasengan() == null) sakura.crearRasengan(entorno);
+
+		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
+			if (sakura.getRasengan() == null)
+				sakura.crearRasengan(entorno);
 		}
-		if (sakura.getRasengan() != null) this.sakura.efectuarRasengan(entorno);
-		
+		if (sakura.getRasengan() != null)
+			this.sakura.efectuarRasengan(entorno);
+
 		puntaje.dibujarse(entorno);
 	}
 
