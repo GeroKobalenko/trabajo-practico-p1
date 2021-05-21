@@ -78,9 +78,7 @@ public class Ninja {
 	    if(Math.abs(this.x-sakura.getX())<=30 && Math.abs(this.y-sakura.getY())<=47){
 	        return true;
 	    }
-	    
 	    return false;
-	    
     }
     
     public boolean choqueRasengan(Rasengan rasengan) {

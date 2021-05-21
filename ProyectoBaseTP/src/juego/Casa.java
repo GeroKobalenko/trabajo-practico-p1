@@ -23,3 +23,4 @@ public class Casa {
 		entorno.dibujarImagen(imagen, this.x, this.y, 0, 0.09);
 	}
 }
+

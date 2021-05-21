@@ -1,7 +1,10 @@
 package juego;
 
 import entorno.Entorno;
+import entorno.Herramientas;
 import entorno.InterfaceJuego;
+
+import java.awt.Color;
 import java.util.Random;
 
 public class Juego extends InterfaceJuego {
@@ -106,6 +109,17 @@ public class Juego extends InterfaceJuego {
 				} else {
 					ninjas[i].moverY();
 				}
+				// Para implementar cuando el ninja toca al pj
+			    if (ninjas[i].tocaSakura(sakura)) {
+			    //this.entorno.escribirTexto("you lose", 400, 300);
+				this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"),400,300,0);
+				this.entorno.cambiarFont("arial", 100, Color.RED);
+				this.entorno.escribirTexto("GAME OVER", 100, 300);
+				this.entorno.cambiarFont("arial", 20, Color.CYAN);
+				puntaje.dibujarse(entorno);
+				this.sakura=null;
+			    this.entorno.removeAll();
+			    }
 				// Verifica la colision del Rasengan respecto a los ninjas
 				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
 					sakura.setRasengan(null);
@@ -167,7 +181,9 @@ public class Juego extends InterfaceJuego {
 		if (sakura.getRasengan() != null)
 			this.sakura.efectuarRasengan(entorno);
 
+		this.entorno.cambiarFont("arial", 20, Color.CYAN);
 		puntaje.dibujarse(entorno);
+		
 	}
 
 	@SuppressWarnings("unused")
