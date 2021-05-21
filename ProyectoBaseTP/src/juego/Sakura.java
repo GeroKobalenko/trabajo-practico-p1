@@ -8,17 +8,13 @@ public class Sakura {
 
 	private int x;
 	private int y;
-	private int ancho;
-	private int alto;
 	private Image imagen;
 	private String direccion;
 	private Rasengan poder;
 
-	public Sakura(int x, int y, int alto, int ancho) {
+	public Sakura(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.ancho = ancho;
-		this.alto = alto;
 		this.poder = null;
 		this.imagen = Herramientas.cargarImagen("images/sakurav2.png");
 	}

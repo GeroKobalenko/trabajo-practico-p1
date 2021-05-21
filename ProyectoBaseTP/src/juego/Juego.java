@@ -12,7 +12,8 @@ public class Juego extends InterfaceJuego {
 	private Entorno entorno;
 	private Sakura sakura;
 	private Puntaje puntaje;
-	private Ninja[] ninjas = new Ninja[6];
+	private Puntaje ninjasMuertos;
+	private Ninja[] ninjas = new Ninja[4];
 	private Calle[] calles = new Calle[6];
 	private Manzana[] manzanas = new Manzana[16];
 	private int[] contI = { 0, 0, 0, 0, 0, 0 };
@@ -21,10 +22,11 @@ public class Juego extends InterfaceJuego {
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Sakura Ikebana Delivery", 800, 600);
-		this.puntaje = new Puntaje(700, 30, 0);
+		this.puntaje = new Puntaje(700, 30, 0, "Puntaje: ");
+		this.ninjasMuertos = new Puntaje(0, 30, 0, "Ninjas muertos: ");
 
 		// Inicializar lo que haga falta para el juego
-		this.sakura = new Sakura(this.entorno.ancho() / 2, 400, 10, 15);
+		this.sakura = new Sakura(this.entorno.ancho()/2 + 210, 350);
 		this.inicializarManzanas();
 		this.inicializarCalles();
 		this.inicializarNinjas();
@@ -62,6 +64,8 @@ public class Juego extends InterfaceJuego {
 				yManzana = yManzana + altoManzana + this.entorno.alto() / 20;
 			}
 		}
+		
+		this.setearCasaElegida();
 	}
 
 	void inicializarNinjas() {
@@ -71,14 +75,35 @@ public class Juego extends InterfaceJuego {
 		int xNinja = this.entorno.ancho() / 4 - 10;
 		for (int i = 0; i < this.ninjas.length; i++) {
 			if (esHorizontal) {
-				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 2, esHorizontal,
+				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 2, esHorizontal,
 						movimiento);
 			} else {
-				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 2, esHorizontal, movimiento);
+				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 2, esHorizontal, movimiento);
 				movimiento = !movimiento;
 				xNinja = xNinja + this.entorno.ancho() / 4 + 10;
 			}
 			esHorizontal = !esHorizontal;
+		}
+	}
+	
+	void setearCasaElegida() {
+		// Seteo todo en false.
+		this.setearCasasNoElegidas();
+		
+		// Elijo un num al azar y seteo true.
+		Random rant = new Random();
+		int aux = rant.nextInt(manzanas.length);
+		manzanas[aux].setElegida(true);
+	}
+	
+	void setearCasasNoElegidas() {
+		for (int i = 0; i < manzanas.length; i++) {
+			manzanas[i].setElegida(false);
+			for (Casa casa : manzanas[i].getCasas()) {
+				if (casa != null) {
+					casa.setElegida(false);
+				}
+			}
 		}
 	}
 
@@ -86,8 +111,14 @@ public class Juego extends InterfaceJuego {
 		for (Manzana manzana : manzanas) {
 			manzana.dibujarManzana(entorno);
 			for (Casa casa : manzana.getCasas()) {
-				if (casa != null)
+				if (casa != null) {
 					casa.dibujarCasa(entorno);
+					
+					if (casa.verificarEntrega(sakura)) {
+						this.setearCasaElegida();
+						puntaje.sumarPts(5);
+					}
+				}
 			}
 		}
 	}
@@ -110,22 +141,17 @@ public class Juego extends InterfaceJuego {
 					ninjas[i].moverY();
 				}
 				// Para implementar cuando el ninja toca al pj
-			    if (ninjas[i].tocaSakura(sakura)) {
-			    //this.entorno.escribirTexto("you lose", 400, 300);
-				this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"),400,300,0);
-				this.entorno.cambiarFont("arial", 100, Color.RED);
-				this.entorno.escribirTexto("GAME OVER", 100, 300);
-				this.entorno.cambiarFont("arial", 20, Color.CYAN);
-				puntaje.dibujarse(entorno);
-				this.sakura=null;
-			    this.entorno.removeAll();
-			    }
+//			    if (ninjas[i].tocaSakura(sakura)) {
+//			    	this.terminarJuego("GAME OVER");
+//			    	this.entorno.removeAll();
+//			    }
 				// Verifica la colision del Rasengan respecto a los ninjas
-				if (ninjas[i].choqueRasengan(sakura.getRasengan())) {
+				if (sakura != null && ninjas[i].choqueRasengan(sakura.getRasengan())) {
 					sakura.setRasengan(null);
 					ninjas[i] = null;
 					ninjaI[i] = i;
-					puntaje.sumarPts(1);
+					ninjasMuertos.sumarPts(1);
+					puntaje.sumarPts(3);
 				}
 			} else {
 				contI[i] = contI[i] + 1;
@@ -134,9 +160,9 @@ public class Juego extends InterfaceJuego {
 					Random rant = new Random();
 					if (!esHorizontal) {
 						int xNinja = this.calles[i].getX();
-						ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 10, 15, 2, esHorizontal, !esHorizontal);
+						ninjas[i] = new Ninja(xNinja, rant.nextInt(600),2, esHorizontal, !esHorizontal);
 					} else {
-						ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 10, 15, 2, esHorizontal,
+						ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 2, esHorizontal,
 								!esHorizontal);
 					}
 					contI[i] = 0;
@@ -144,14 +170,18 @@ public class Juego extends InterfaceJuego {
 				ninjaI[i] = -1;
 			}
 			esHorizontal = !esHorizontal;
-
-			// Para implementar cuando el ninja toca al pj
-			// if (ninjas[i].tocaSakura(sakura)) {
-			// this.entorno.escribirTexto("you lose", 400, 300);
-			//// System.out.println("TOUCHING SAKURA");
-			// //this.entorno.removeAll();
-			// }
 		}
+	}
+	
+	void terminarJuego(String palabra) {
+		this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"),400,300,0);
+		this.entorno.cambiarFont("arial", 100, Color.RED);
+		this.entorno.escribirTexto(palabra, 100, 300);
+		this.entorno.cambiarFont("arial", 20, Color.CYAN);
+		puntaje.dibujarse(entorno);
+		ninjasMuertos.dibujarse(entorno);
+		this.sakura=null;
+//		this.ninjas=null;
 	}
 
 	/**
@@ -170,19 +200,26 @@ public class Juego extends InterfaceJuego {
 		this.dibujarCalles();
 		this.dibujarNinjas();
 
-		sakura.dibujarse(entorno);
-		sakura.seMueveHori(entorno, this.calles);
-		sakura.seMueveVerti(entorno, this.calles);
-
-		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
-			if (sakura.getRasengan() == null)
-				sakura.crearRasengan(entorno);
+		if (sakura != null) {
+			sakura.dibujarse(entorno);
+			sakura.seMueveHori(entorno, this.calles);
+			sakura.seMueveVerti(entorno, this.calles);
+			
+			if (this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
+				if (sakura.getRasengan() == null)
+					sakura.crearRasengan(entorno);
+			}
+			if (sakura.getRasengan() != null)
+				this.sakura.efectuarRasengan(entorno);
 		}
-		if (sakura.getRasengan() != null)
-			this.sakura.efectuarRasengan(entorno);
-
-		this.entorno.cambiarFont("arial", 20, Color.CYAN);
+		
+		if (puntaje.getPuntos() >= 100) {
+			this.terminarJuego("GANASTE!");
+		}
+		
+		this.entorno.cambiarFont("arial", 20, Color.BLACK);
 		puntaje.dibujarse(entorno);
+		ninjasMuertos.dibujarse(entorno);
 		
 	}
 

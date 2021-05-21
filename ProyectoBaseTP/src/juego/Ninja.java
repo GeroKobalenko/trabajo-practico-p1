@@ -7,42 +7,24 @@ import java.lang.Math;
 public class Ninja {
     private int x;
     private int y;
-    private int ancho;
-    private int alto;
     private int velocidad;
     private boolean esHorizontal;
     private boolean tipoMovimiento;
 
-    public Ninja(int x, int y, int alto, int ancho, int velocidad, boolean esHorizontal, boolean tipoMovimiento) {
+    public Ninja(int x, int y, int velocidad, boolean esHorizontal, boolean tipoMovimiento) {
         this.x = x;
         this.y = y;
-        this.ancho = ancho;
-        this.alto = alto;
         this.velocidad = velocidad;
         this.esHorizontal = esHorizontal;
         this.tipoMovimiento = tipoMovimiento;
     }
     
-    public void print() {
-    	System.out.println(this.x);
-    	System.out.println(this.y);
-    	System.out.println(this.esHorizontal);
-    	System.out.println(this.tipoMovimiento);
-    }
     public int getX() {
         return x;
     }
 
     public int getY() {
         return y;
-    }
-
-    public int getAncho() {
-        return ancho;
-    }
-
-    public int getAlto() {
-        return alto;
     }
 
     public int getVelocidad() {
@@ -74,10 +56,11 @@ public class Ninja {
     }
 
     public boolean tocaSakura(Sakura sakura) {
-    	
-	    if(Math.abs(this.x-sakura.getX())<=30 && Math.abs(this.y-sakura.getY())<=47){
-	        return true;
-	    }
+    	if (sakura != null) {
+    		if(Math.abs(this.x-sakura.getX())<=30 && Math.abs(this.y-sakura.getY())<=47){
+    	        return true;
+    	    }	
+    	} 
 	    return false;
     }
     

@@ -1,6 +1,8 @@
 package juego;
 
 import java.awt.Color;
+import java.util.Random;
+
 import entorno.Entorno;
 
 public class Manzana {
@@ -10,6 +12,7 @@ public class Manzana {
 	private int ancho;
 	private int alto;
 	private Casa[] casas = new Casa[4];
+	private boolean esEntrega = false;
 
 	Manzana(int x, int y, int ancho, int alto) {
 		this.x = x;
@@ -66,6 +69,24 @@ public class Manzana {
 				xCasa = x - ancho/2 + 25;
 			}
 		}
+	}
+	
+	public void setElegida(boolean bool) {
+		this.esEntrega = bool;
+		
+		Random rant = new Random();
+		int aux = rant.nextInt(casas.length);
+		
+		if (casas[aux] != null) {
+			casas[aux].setElegida(true);
+		}
+		else {
+			setElegida(bool);
+		}
+	}
+	
+	public boolean getElegida() {
+		return this.esEntrega;
 	}
 
 	public void dibujarManzana(Entorno entorno) {

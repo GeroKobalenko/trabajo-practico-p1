@@ -6,12 +6,13 @@ public class Puntaje {
     private int x;
     private int y;
     private int pts;
-    private String palabra = "Puntaje: ";
+    private String palabra;
 
-    public Puntaje(int x, int y, int pts) {
+    public Puntaje(int x, int y, int pts, String palabra) {
         this.x = x;
         this.y = y;
         this.pts = pts;
+        this.palabra = palabra;
     }
 
     public int sumarPts(int pts) {
@@ -25,6 +26,10 @@ public class Puntaje {
 
     public int getY() {
         return y;
+    }
+    
+    public int getPuntos() {
+        return pts;
     }
 
     public void dibujarse(Entorno entorno) {
