@@ -5,27 +5,36 @@ import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.util.Random;
+
+import javax.sound.sampled.Clip;
 
 public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Sakura sakura;
+	private Bitcoin bitcoin;
 	private Puntaje puntaje;
-	private Puntaje ninjasMuertos;
+	private Puntaje cantNinjasMuertos;
 	private Ninja[] ninjas = new Ninja[4];
 	private Calle[] calles = new Calle[6];
 	private Manzana[] manzanas = new Manzana[16];
 	private int[] contI = { 0, 0, 0, 0, 0, 0 };
 	private int[] ninjaI = { -1, -1, -1, -1, -1, -1 };
+	private int contObjetoExtra = 0;
+	private boolean verMenu = true;
+	private boolean tocoAbajo = false;
+	private boolean tocoArriba = true;
+	private Image flechaMenu = Herramientas.cargarImagen("images/flechaRoja.png");
 
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Sakura Ikebana Delivery", 800, 600);
-		this.puntaje = new Puntaje(700, 30, 0, "Puntaje: ");
-		this.ninjasMuertos = new Puntaje(0, 30, 0, "Ninjas muertos: ");
-
+		
 		// Inicializar lo que haga falta para el juego
+		this.puntaje = new Puntaje(700, 30, 0, "Puntaje: ");
+		this.cantNinjasMuertos = new Puntaje(0, 30, 0, "Ninjas muertos: ");
 		this.sakura = new Sakura(this.entorno.ancho()/2 + 210, 350);
 		this.inicializarManzanas();
 		this.inicializarCalles();
@@ -86,6 +95,20 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 	
+	void inicializarBitcoin() {
+		Random random = new Random();
+		int rand1 = random.nextInt(calles.length);
+		
+		if (calles[rand1].esHorizontal()) {
+			int ranAncho = random.nextInt(this.entorno.ancho());
+			this.bitcoin = new Bitcoin(ranAncho + 210, calles[rand1].getY());
+		}
+		else {
+			int ranAlto = random.nextInt(this.entorno.alto());
+			this.bitcoin = new Bitcoin(calles[rand1].getX(), ranAlto);
+		}
+	}
+	
 	void setearCasaElegida() {
 		// Seteo todo en false.
 		this.setearCasasNoElegidas();
@@ -141,16 +164,16 @@ public class Juego extends InterfaceJuego {
 					ninjas[i].moverY();
 				}
 				// Para implementar cuando el ninja toca al pj
-//			    if (ninjas[i].tocaSakura(sakura)) {
-//			    	this.terminarJuego("GAME OVER");
-//			    	this.entorno.removeAll();
-//			    }
+			    if (ninjas[i].tocaSakura(sakura)) {
+			    	this.terminarJuego("GAME OVER");
+			    	this.entorno.removeAll();
+			    }
 				// Verifica la colision del Rasengan respecto a los ninjas
 				if (sakura != null && ninjas[i].choqueRasengan(sakura.getRasengan())) {
 					sakura.setRasengan(null);
 					ninjas[i] = null;
 					ninjaI[i] = i;
-					ninjasMuertos.sumarPts(1);
+					cantNinjasMuertos.sumarPts(1);
 					puntaje.sumarPts(3);
 				}
 			} else {
@@ -173,15 +196,25 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 	
+	void dibujarFlechaMenu(int posY){
+		this.entorno.dibujarImagen(flechaMenu,100,posY,0,0.1);
+	}
+	
+	void menuJuego() {
+		this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"),400,300,0);
+		this.entorno.cambiarFont("arial", 100, Color.RED);
+		this.entorno.escribirTexto("JUGAR", 200, 200);
+		this.entorno.escribirTexto("SALIR", 200, 400);
+	}
+	
 	void terminarJuego(String palabra) {
 		this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"),400,300,0);
 		this.entorno.cambiarFont("arial", 100, Color.RED);
 		this.entorno.escribirTexto(palabra, 100, 300);
 		this.entorno.cambiarFont("arial", 20, Color.CYAN);
 		puntaje.dibujarse(entorno);
-		ninjasMuertos.dibujarse(entorno);
+		cantNinjasMuertos.dibujarse(entorno);
 		this.sakura=null;
-//		this.ninjas=null;
 	}
 
 	/**
@@ -196,31 +229,72 @@ public class Juego extends InterfaceJuego {
 		// ...
 
 		// Llamo los metodos para dibujar los objetos.
-		this.dibujarManzanas();
-		this.dibujarCalles();
-		this.dibujarNinjas();
-
-		if (sakura != null) {
-			sakura.dibujarse(entorno);
-			sakura.seMueveHori(entorno, this.calles);
-			sakura.seMueveVerti(entorno, this.calles);
-			
-			if (this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
-				if (sakura.getRasengan() == null)
-					sakura.crearRasengan(entorno);
+		if (verMenu) {
+			menuJuego();
+			if (this.entorno.sePresiono(entorno.TECLA_ABAJO) || tocoAbajo) {
+				tocoAbajo = true;
+				tocoArriba = false;
+				dibujarFlechaMenu(350);
+				
 			}
-			if (sakura.getRasengan() != null)
-				this.sakura.efectuarRasengan(entorno);
+			if (this.entorno.sePresiono(entorno.TECLA_ARRIBA) || tocoArriba) {
+				tocoArriba = true;
+				tocoAbajo = false;
+				dibujarFlechaMenu(150);
+			}
+			
+			if (this.entorno.sePresiono(entorno.TECLA_ENTER)&& tocoArriba) {
+				verMenu = false;
+			}
+			
+			if (this.entorno.sePresiono(entorno.TECLA_ENTER)&& tocoAbajo) {
+				System.exit(0);
+			}
 		}
-		
-		if (puntaje.getPuntos() >= 100) {
-			this.terminarJuego("GANASTE!");
+		else {
+			this.dibujarManzanas();
+			this.dibujarCalles();
+			this.dibujarNinjas();
+			
+			// Cuando el contador llega al numero especificado se crea la moneda.
+			if(contObjetoExtra == 700) {
+				inicializarBitcoin();
+				contObjetoExtra = 0;
+			}
+			
+			if (bitcoin != null) {
+				bitcoin.dibujarBtc(entorno);
+			}
+			else {
+				this.contObjetoExtra++;
+			}
+
+			if (sakura != null) {
+				sakura.dibujarse(entorno);
+				sakura.seMueveHori(entorno, this.calles);
+				sakura.seMueveVerti(entorno, this.calles);
+				
+				if (this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
+					if (sakura.getRasengan() == null)
+						sakura.crearRasengan(entorno);
+				}
+				if (sakura.getRasengan() != null)
+					this.sakura.efectuarRasengan(entorno);
+				
+				if (sakura.agarraBitcoin(bitcoin)) {
+					puntaje.sumarPts(10);
+					bitcoin = null;
+				}
+			}
+			
+			if (puntaje.getPuntos() >= 100) {
+				this.terminarJuego("GANASTE!");
+			}
+			
+			this.entorno.cambiarFont("arial", 20, Color.BLACK);
+			puntaje.dibujarse(entorno);
+			cantNinjasMuertos.dibujarse(entorno);
 		}
-		
-		this.entorno.cambiarFont("arial", 20, Color.BLACK);
-		puntaje.dibujarse(entorno);
-		ninjasMuertos.dibujarse(entorno);
-		
 	}
 
 	@SuppressWarnings("unused")

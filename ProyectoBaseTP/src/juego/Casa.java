@@ -25,7 +25,7 @@ public class Casa {
 	
 	public boolean verificarEntrega(Sakura sakura) {
 		if (this.esEntrega && sakura != null) {
-			if((Math.abs(this.x-sakura.getX())<=50 && Math.abs(this.y-sakura.getY())<=90)){
+			if((Math.abs(this.x-sakura.getX())<=50 && Math.abs(this.y-sakura.getY()-10)<=70)){
 		        return true;
 		    }
 		}

@@ -18,10 +18,6 @@ public class Sakura {
 		this.poder = null;
 		this.imagen = Herramientas.cargarImagen("images/sakurav2.png");
 	}
-	
-	public String direcc(){
-		return this.direccion;
-	}
 
 	public int getX() {
 		return x;
@@ -145,5 +141,14 @@ public class Sakura {
 		
 		// Cuando el rasengan toque algun borde, lo nulleo.
 		if (this.poder.getX() == entorno.ancho() || this.poder.getX() == 0|| this.poder.getY() == entorno.alto() || this.poder.getY() == 0) this.poder = null;
+	}
+	
+	public boolean agarraBitcoin(Bitcoin btc) {
+		if (btc != null) {
+    		if(Math.abs(this.x-btc.getX())<=5 && Math.abs(this.y-btc.getY())<=50){
+    	        return true;
+    	    }	
+    	} 
+	    return false;
 	}
 }
