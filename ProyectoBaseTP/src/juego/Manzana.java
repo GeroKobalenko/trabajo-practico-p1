@@ -61,10 +61,10 @@ public class Manzana {
 				(xCasa == xEsquinaDer && yCasa == yEsquinaInf)) add = false;
 			
 			if (add) this.casas[i] = new Casa(xCasa, yCasa);
-//			this.casas.add(new Casa(xCasa, yCasa))
 			
 			xCasa = x + ancho/2 - 25;
-			if (i == 1) {
+
+			if (i == 1) {//reseteo X y bajo en la manzana en Y
 				yCasa = y + alto/2 - 25;
 				xCasa = x - ancho/2 + 25;
 			}

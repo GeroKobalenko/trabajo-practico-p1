@@ -8,10 +8,11 @@ import java.awt.Color;
 import java.awt.Image;
 import java.util.Random;
 
-import javax.sound.sampled.Clip;
+//import javax.sound.sampled.Clip;
 
 public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
+	// Objetos y variables que vamos a utilizar
 	private Entorno entorno;
 	private Sakura sakura;
 	private Bitcoin bitcoin;
@@ -21,9 +22,9 @@ public class Juego extends InterfaceJuego {
 	private Calle[] calles = new Calle[6];
 	private Manzana[] manzanas = new Manzana[16];
 	private int[] contI = { 0, 0, 0, 0, 0, 0 };
-	private int[] ninjaI = { -1, -1, -1, -1, -1, -1 };
 	private int contObjetoExtra = 0;
 	private boolean verMenu = true;
+	// Flags para la flecha del menu
 	private boolean tocoAbajo = false;
 	private boolean tocoArriba = true;
 	private Image flechaMenu = Herramientas.cargarImagen("images/flechaRoja.png");
@@ -31,11 +32,11 @@ public class Juego extends InterfaceJuego {
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Sakura Ikebana Delivery", 800, 600);
-		
+
 		// Inicializar lo que haga falta para el juego
-		this.puntaje = new Puntaje(700, 30, 0, "Puntaje: ");
+		this.puntaje = new Puntaje(680, 30, 0, "Puntaje: ");
 		this.cantNinjasMuertos = new Puntaje(0, 30, 0, "Ninjas muertos: ");
-		this.sakura = new Sakura(this.entorno.ancho()/2 + 210, 350);
+		this.sakura = new Sakura(this.entorno.ancho() / 2 + 210, 350);
 		this.inicializarManzanas();
 		this.inicializarCalles();
 		this.inicializarNinjas();
@@ -44,11 +45,12 @@ public class Juego extends InterfaceJuego {
 	}
 
 	void inicializarCalles() {
-		// Posiciones de clles iniciales
+		// Posiciones de calles iniciales
 		int calleX = 190;
 		int calleY = 145;
 		// Ciclo y añado un objeto Calle a cada elemento del array.
 		for (int i = 0; i < calles.length; i++) {
+			// para crear 3 calles horizontales y verticales
 			if (i < 3) {
 				this.calles[i] = new Calle(this.entorno.ancho() / 2, calleY, 30, this.entorno.ancho(), true);
 				calleY = calleY + this.entorno.alto() / 4 + 10;
@@ -64,17 +66,37 @@ public class Juego extends InterfaceJuego {
 		int altoManzana = 130;
 		int xManzana = 85;
 		int yManzana = 65;
-
 		for (int i = 0; i < manzanas.length; i++) {
-			manzanas[i] = new Manzana(xManzana, yManzana, anchoManzana, altoManzana);
+			manzanas[i] = new Manzana(xManzana, yManzana, anchoManzana, altoManzana);// crea las casas dentro del objeto
 			xManzana = xManzana + anchoManzana + this.entorno.ancho() / 20;
+			// Reinicio valor en X y modifico el valor de Y para que haga la fila siguiente
 			if (xManzana >= this.entorno.ancho()) {
 				xManzana = 85;
 				yManzana = yManzana + altoManzana + this.entorno.alto() / 20;
 			}
 		}
-		
 		this.setearCasaElegida();
+	}
+
+	void setearCasaElegida() {
+		// Seteo todo en false.
+		this.setearCasasNoElegidas();
+
+		// Elijo un num al azar y seteo true.
+		Random rant = new Random();
+		int aux = rant.nextInt(manzanas.length);
+		manzanas[aux].setElegida(true);
+	}
+
+	void setearCasasNoElegidas() {
+		for (Manzana manzana : manzanas) {
+			manzana.setElegida(false);
+			for (Casa casa : manzana.getCasas()) {
+				if (casa != null) {
+					casa.setElegida(false);
+				}
+			}
+		}
 	}
 
 	void inicializarNinjas() {
@@ -84,8 +106,7 @@ public class Juego extends InterfaceJuego {
 		int xNinja = this.entorno.ancho() / 4 - 10;
 		for (int i = 0; i < this.ninjas.length; i++) {
 			if (esHorizontal) {
-				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 2, esHorizontal,
-						movimiento);
+				this.ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 2, esHorizontal, movimiento);
 			} else {
 				this.ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 2, esHorizontal, movimiento);
 				movimiento = !movimiento;
@@ -94,39 +115,17 @@ public class Juego extends InterfaceJuego {
 			esHorizontal = !esHorizontal;
 		}
 	}
-	
+
 	void inicializarBitcoin() {
 		Random random = new Random();
 		int rand1 = random.nextInt(calles.length);
-		
+
 		if (calles[rand1].esHorizontal()) {
 			int ranAncho = random.nextInt(this.entorno.ancho());
-			this.bitcoin = new Bitcoin(ranAncho + 210, calles[rand1].getY());
-		}
-		else {
+			this.bitcoin = new Bitcoin(ranAncho, calles[rand1].getY());
+		} else {
 			int ranAlto = random.nextInt(this.entorno.alto());
 			this.bitcoin = new Bitcoin(calles[rand1].getX(), ranAlto);
-		}
-	}
-	
-	void setearCasaElegida() {
-		// Seteo todo en false.
-		this.setearCasasNoElegidas();
-		
-		// Elijo un num al azar y seteo true.
-		Random rant = new Random();
-		int aux = rant.nextInt(manzanas.length);
-		manzanas[aux].setElegida(true);
-	}
-	
-	void setearCasasNoElegidas() {
-		for (int i = 0; i < manzanas.length; i++) {
-			manzanas[i].setElegida(false);
-			for (Casa casa : manzanas[i].getCasas()) {
-				if (casa != null) {
-					casa.setElegida(false);
-				}
-			}
 		}
 	}
 
@@ -136,7 +135,7 @@ public class Juego extends InterfaceJuego {
 			for (Casa casa : manzana.getCasas()) {
 				if (casa != null) {
 					casa.dibujarCasa(entorno);
-					
+
 					if (casa.verificarEntrega(sakura)) {
 						this.setearCasaElegida();
 						puntaje.sumarPts(5);
@@ -152,7 +151,7 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 
-	void dibujarNinjas() {
+	void accionesNinjas() {
 		boolean esHorizontal = true;
 		for (int i = 0; i < ninjas.length; i++) {
 			if (ninjas[i] != null) {
@@ -164,15 +163,14 @@ public class Juego extends InterfaceJuego {
 					ninjas[i].moverY();
 				}
 				// Para implementar cuando el ninja toca al pj
-			    if (ninjas[i].tocaSakura(sakura)) {
-			    	this.terminarJuego("GAME OVER");
-			    	this.entorno.removeAll();
-			    }
+				if (ninjas[i].tocaSakura(sakura)) {
+					this.terminarJuego("GAME OVER");
+					this.entorno.removeAll();
+				}
 				// Verifica la colision del Rasengan respecto a los ninjas
 				if (sakura != null && ninjas[i].choqueRasengan(sakura.getRasengan())) {
 					sakura.setRasengan(null);
 					ninjas[i] = null;
-					ninjaI[i] = i;
 					cantNinjasMuertos.sumarPts(1);
 					puntaje.sumarPts(3);
 				}
@@ -183,38 +181,38 @@ public class Juego extends InterfaceJuego {
 					Random rant = new Random();
 					if (!esHorizontal) {
 						int xNinja = this.calles[i].getX();
-						ninjas[i] = new Ninja(xNinja, rant.nextInt(600),2, esHorizontal, !esHorizontal);
+								ninjas[i] = new Ninja(xNinja, rant.nextInt(600), 2, esHorizontal, !esHorizontal);
 					} else {
 						ninjas[i] = new Ninja(rant.nextInt(800), this.calles[i].getY() - 5, 2, esHorizontal,
 								!esHorizontal);
 					}
 					contI[i] = 0;
 				}
-				ninjaI[i] = -1;
 			}
 			esHorizontal = !esHorizontal;
 		}
 	}
-	
-	void dibujarFlechaMenu(int posY){
-		this.entorno.dibujarImagen(flechaMenu,100,posY,0,0.1);
+
+	void dibujarFlechaMenu(int posY) {
+		this.entorno.dibujarImagen(flechaMenu, 100, posY, 0, 0.1);
 	}
-	
+
 	void menuJuego() {
-		this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"),400,300,0);
+		this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"), 400, 300, 0);
 		this.entorno.cambiarFont("arial", 100, Color.RED);
 		this.entorno.escribirTexto("JUGAR", 200, 200);
 		this.entorno.escribirTexto("SALIR", 200, 400);
 	}
-	
+
 	void terminarJuego(String palabra) {
-		this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"),400,300,0);
+		this.entorno.dibujarImagen(Herramientas.cargarImagen("images/black.jpg"), 400, 300, 0);
 		this.entorno.cambiarFont("arial", 100, Color.RED);
 		this.entorno.escribirTexto(palabra, 100, 300);
 		this.entorno.cambiarFont("arial", 20, Color.CYAN);
 		puntaje.dibujarse(entorno);
 		cantNinjasMuertos.dibujarse(entorno);
-		this.sakura=null;
+		this.sakura = null;
+		this.bitcoin = null;
 	}
 
 	/**
@@ -235,37 +233,35 @@ public class Juego extends InterfaceJuego {
 				tocoAbajo = true;
 				tocoArriba = false;
 				dibujarFlechaMenu(350);
-				
+
 			}
 			if (this.entorno.sePresiono(entorno.TECLA_ARRIBA) || tocoArriba) {
 				tocoArriba = true;
 				tocoAbajo = false;
 				dibujarFlechaMenu(150);
 			}
-			
-			if (this.entorno.sePresiono(entorno.TECLA_ENTER)&& tocoArriba) {
+
+			if (this.entorno.sePresiono(entorno.TECLA_ENTER) && tocoArriba) {
 				verMenu = false;
 			}
-			
-			if (this.entorno.sePresiono(entorno.TECLA_ENTER)&& tocoAbajo) {
+
+			if (this.entorno.sePresiono(entorno.TECLA_ENTER) && tocoAbajo) {
 				System.exit(0);
 			}
-		}
-		else {
+		} else {
 			this.dibujarManzanas();
 			this.dibujarCalles();
-			this.dibujarNinjas();
-			
+			this.accionesNinjas();
+
 			// Cuando el contador llega al numero especificado se crea la moneda.
-			if(contObjetoExtra == 700) {
+			if (contObjetoExtra == 700) {
 				inicializarBitcoin();
 				contObjetoExtra = 0;
 			}
-			
+
 			if (bitcoin != null) {
 				bitcoin.dibujarBtc(entorno);
-			}
-			else {
+			} else {
 				this.contObjetoExtra++;
 			}
 
@@ -273,25 +269,25 @@ public class Juego extends InterfaceJuego {
 				sakura.dibujarse(entorno);
 				sakura.seMueveHori(entorno, this.calles);
 				sakura.seMueveVerti(entorno, this.calles);
-				
+
 				if (this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
 					if (sakura.getRasengan() == null)
 						sakura.crearRasengan(entorno);
 				}
 				if (sakura.getRasengan() != null)
 					this.sakura.efectuarRasengan(entorno);
-				
+
 				if (sakura.agarraBitcoin(bitcoin)) {
 					puntaje.sumarPts(10);
 					bitcoin = null;
 				}
 			}
-			
+
 			if (puntaje.getPuntos() >= 100) {
 				this.terminarJuego("GANASTE!");
 			}
-			
-			this.entorno.cambiarFont("arial", 20, Color.BLACK);
+
+			this.entorno.cambiarFont("arial", 20, Color.cyan);
 			puntaje.dibujarse(entorno);
 			cantNinjasMuertos.dibujarse(entorno);
 		}
